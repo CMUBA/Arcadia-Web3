@@ -78,7 +78,10 @@ npx create-aptos-dapp@latest
 got:
 Success! You're ready to start building your dapp on Aptos.
 
-API-key:aptoslabs_GHmmSAjuar5_9PjHbMorG112krPMpWkyPXRMMMmdJhb7
+API-key:
+aptoslabs_GHmmSAjuar5_9PjHbMorG112krPMpWkyPXRMMMmdJhb7
+
+npm install(if you need to install dependencies)
 
 ```
 
@@ -89,6 +92,6 @@ M aptos move new --name arcadia_move --profile default
 ### Run the app
 
 ```
-
+npm run dev
 
 ```
