@@ -95,3 +95,29 @@ M aptos move new --name arcadia_move --profile default
 npm run dev
 
 ```
+--------------------------------
+
+
+## Features Roadmap
+
+### V0.1 Core Features
+
+| Feature Category | Description | Implementation Details |
+|-----------------|-------------|------------------------|
+| Authentication | Email login via AptosConnect | Basic email authentication |
+| NFT Marketplace | Basic NFT trading with APT/PNTs | - Purchase NFT heroes and equipment<br>- Fixed price listings |
+| Hero System | Hero NFTs and Dungeon Battles | - Basic hero NFT implementation<br>- Simple attribute system<br>- Basic dungeon battle mechanics<br>- PNT token rewards |
+| Coupon System | Basic redemption mechanics | - QR code/numeric code generation<br>- Basic redemption verification |
+| Business Portal | Merchant coupon management | - Basic merchant login<br>- Simple coupon write-off interface |
+| Game Mechanics | Core gameplay systems | - On-chain NFT hero loading/saving<br>- Basic PNT wallet integration<br>- Simple skill tree<br>- Basic equipment system<br>- Single art style for equipment<br>- Server-side map/dungeon system |
+
+### V0.2 Enhanced Features
+
+| Feature Category | Planned Improvements |
+|-----------------|---------------------|
+| Authentication | - Enhanced security with email + fingerprint verification |
+| NFT Marketplace | - Community marketplace features<br>- Player-to-player NFT trading<br>- Custom shops implementation |
+| Hero System | - Conversion to Soul-Bound Tokens (SBT)<br>- PvP arena implementation<br>- Enhanced battle mechanics |
+| Community Features | - Integrated shop system<br>- Community interaction tools<br>- Enhanced marketplace features |
+| Business Tools | - Mobile app for merchants<br>- QR scanning functionality<br>- Enhanced code input system |
+| Game Mechanics | - On-chain map registration<br>- Custom map editor integration<br>- Advanced skill tree system<br>- Expanded equipment variety<br>- Multiple art styles<br>- Enhanced upgrade paths |
