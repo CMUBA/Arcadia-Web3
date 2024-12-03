@@ -102,22 +102,22 @@ npm run dev
 
 ### V0.1 Core Features
 
-| Feature Category | Description | Implementation Details |
-|-----------------|-------------|------------------------|
-| Authentication | Email login via AptosConnect | Basic email authentication |
-| NFT Marketplace | Basic NFT trading with APT/PNTs | - Purchase NFT heroes and equipment<br>- Fixed price listings |
-| Hero System | Hero NFTs and Dungeon Battles | - Basic hero NFT implementation<br>- Simple attribute system<br>- Basic dungeon battle mechanics<br>- PNT token rewards |
-| Coupon System | Basic redemption mechanics | - QR code/numeric code generation<br>- Basic redemption verification |
-| Business Portal | Merchant coupon management | - Basic merchant login<br>- Simple coupon write-off interface |
-| Game Mechanics | Core gameplay systems | - On-chain NFT hero loading/saving<br>- Basic PNT wallet integration<br>- Simple skill tree<br>- Basic equipment system<br>- Single art style for equipment<br>- Server-side map/dungeon system |
+| Feature Category | Description | Implementation Details | Tech Detail |
+|-----------------|-------------|------------------------|-------------|
+| Authentication | Email login via AptosConnect | Basic email authentication | - AptosConnect SDK integration<br>- JWT token management<br>- Session handling |
+| NFT Marketplace | Basic NFT trading with APT/PNTs | - Purchase NFT heroes and equipment<br>- Fixed price listings | - Smart contract for NFT trading<br>- APT/PNT token integration<br>- Metadata storage on IPFS |
+| Hero System | Hero NFTs and Dungeon Battles | - Basic hero NFT implementation<br>- Simple attribute system<br>- Basic dungeon battle mechanics<br>- PNT token rewards | - ERC-721 compatible NFTs<br>- On-chain attribute storage<br>- Battle logic in Move<br>- PNT reward distribution system |
+| Coupon System | Basic redemption mechanics | - QR code/numeric code generation<br>- Basic redemption verification | - QR generation library<br>- Verification smart contract<br>- Coupon metadata storage |
+| Business Portal | Merchant coupon management | - Basic merchant login<br>- Simple coupon write-off interface | - Merchant authentication system<br>- Write-off transaction handling<br>- Business profile storage |
+| Game Mechanics | Core gameplay systems | - On-chain NFT hero loading/saving<br>- Basic PNT wallet integration<br>- Simple skill tree<br>- Basic equipment system<br>- Single art style for equipment<br>- Server-side map/dungeon system | - Move modules for game logic<br>- State management system<br>- Equipment/skill data structures<br>- Map generation algorithms |
 
 ### V0.2 Enhanced Features
 
-| Feature Category | Planned Improvements |
-|-----------------|---------------------|
-| Authentication | - Enhanced security with email + fingerprint verification |
-| NFT Marketplace | - Community marketplace features<br>- Player-to-player NFT trading<br>- Custom shops implementation |
-| Hero System | - Conversion to Soul-Bound Tokens (SBT)<br>- PvP arena implementation<br>- Enhanced battle mechanics |
-| Community Features | - Integrated shop system<br>- Community interaction tools<br>- Enhanced marketplace features |
-| Business Tools | - Mobile app for merchants<br>- QR scanning functionality<br>- Enhanced code input system |
-| Game Mechanics | - On-chain map registration<br>- Custom map editor integration<br>- Advanced skill tree system<br>- Expanded equipment variety<br>- Multiple art styles<br>- Enhanced upgrade paths |
+| Feature Category | Planned Improvements | Tech Detail |
+|-----------------|---------------------|-------------|
+| Authentication | - Enhanced security with email + fingerprint verification | - Biometric authentication integration<br>- Enhanced security protocols<br>- Multi-factor auth system |
+| NFT Marketplace | - Community marketplace features<br>- Player-to-player NFT trading<br>- Custom shops implementation | - P2P trading smart contracts<br>- Dynamic pricing mechanisms<br>- Shop management system |
+| Hero System | - Conversion to Soul-Bound Tokens (SBT)<br>- PvP arena implementation<br>- Enhanced battle mechanics | - SBT implementation in Move<br>- PvP matchmaking system<br>- Advanced battle algorithms |
+| Community Features | - Integrated shop system<br>- Community interaction tools<br>- Enhanced marketplace features | - Social features backend<br>- Community governance system<br>- Reputation system |
+| Business Tools | - Mobile app for merchants<br>- QR scanning functionality<br>- Enhanced code input system | - Mobile app development<br>- Native QR scanning<br>- Offline verification system |
+| Game Mechanics | - On-chain map registration<br>- Custom map editor integration<br>- Advanced skill tree system<br>- Expanded equipment variety<br>- Multiple art styles<br>- Enhanced upgrade paths | - Map verification system<br>- Custom editor integration<br>- Advanced skill tree algorithms<br>- Equipment combination system |
