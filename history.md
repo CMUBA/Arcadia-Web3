@@ -119,3 +119,8 @@ arcadia-game/
 
 1. page.tsx is a home page, show the game introduction and some pictures, follow this page: https://godsunchained.com/ style
 2. move the "connect a wallet" button to be the login button in the top right corner
+done
+
+3. please add a Play button after Wallet Connected in the Wallet Connection card area.
+4. after click play button, it will redirect to the landing page, which include select a NFT in the market place and minting NFT and if you has a NFT, then loading NFT hero to the game page automatically.
+5. landing page include three sections introduction: Beginner Guide, Town Section, Space Map Section, besides the nft market place.

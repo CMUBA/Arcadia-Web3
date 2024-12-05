@@ -32,6 +32,8 @@ import {
 import { init as initTelegram } from "@telegram-apps/sdk";
 import { AlertCircle } from "lucide-react";
 import Image from "next/image";
+import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 
 // Imports for registering a browser extension wallet plugin on page load
 import { MyWallet } from "@/utils/standardWallet";
@@ -150,6 +152,12 @@ function WalletConnection({
   wallet,
   changeNetwork,
 }: WalletConnectionProps) {
+  const router = useRouter();
+
+  const handlePlayClick = () => {
+    router.push('/landing');
+  };
+
   const isValidNetworkName = () => {
     if (isAptosNetwork(network)) {
       return Object.values<string | undefined>(Network).includes(network?.name);
@@ -311,6 +319,16 @@ function WalletConnection({
               requests
             </div>
           )}
+        </div>
+
+        <div className="flex justify-center">
+          <Button 
+            size="lg" 
+            onClick={handlePlayClick}
+            className="px-8 py-6 text-xl"
+          >
+            Play Now
+          </Button>
         </div>
       </CardContent>
     </Card>
