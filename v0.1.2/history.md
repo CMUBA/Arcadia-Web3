@@ -80,14 +80,37 @@
 ## v0.01
 
 arcadia-game/
-├── frontend/
-│   ├── pages/
-│   │   ├── Home/           # Homepage with login
-│   │   ├── Landing/        # Beginner guide page
-│   │   ├── Market/         # NFT marketplace
-│   │   └── Game/           # Main game interface
-│   ├── components/
-│   │   ├── WalletConnect/  # Using aptos-wallet-adapter
-│   │   ├── HeroCard/       # Hero NFT display
-│   │   └── GameUI/         # Game interface components
-│   └── contracts/          # Move smart contracts
+├── pages/                    # Move from frontend/pages to root
+│   ├── _app.tsx             # Add this for layout wrapper
+│   ├── index.tsx            # Home page
+│   ├── landing.tsx          # Landing page
+│   ├── game.tsx             # Game page
+│   └── market.tsx           # Market page
+│
+├── components/              # Move from frontend/components
+│   ├── Landing/
+│   │   ├── BeginnerGuide.tsx
+│   │   ├── TownSection.tsx
+│   │   └── SpaceMapSection.tsx
+│   ├── Game/
+│   │   ├── HeroCard.tsx
+│   │   └── GameMap.tsx
+│   └── shared/
+│       └── Layout.tsx
+│
+├── utils/                   # Move from frontend/utils
+│   ├── types.ts
+│   └── aptosClient.ts
+│
+├── styles/                  # Add styles directory
+│   └── globals.css
+│
+├── public/                  # Add public directory for images
+│   └── images/
+│       ├── market.png
+│       ├── shop.png
+│       ├── redeem.png
+│       └── space-preview.png
+│
+├── package.json
+└── tsconfig.json

@@ -1,123 +1,53 @@
-# Arcadia-move-contracts
+# Aptos Wallet Adapter Demo App
 
-initiated by Aptos infra
+This project is a demo of the Aptos Wallet Selector using [Next.js](https://nextjs.org/) and [shadcn/ui](https://ui.shadcn.com/).
 
-## Plan
+A live version is hosted at:
+https://aptos-labs.github.io/aptos-wallet-adapter
 
-Plan: [Plan Nov Dec and Jan](https://www.notion.so/cmuba/Plan-Nov-Dec-and-Jan-1456900e50b680e689d8cde30521938c)
+## Use shadcn/ui wallet selector for your own app
 
-![Arcadia-five-components](https://raw.githubusercontent.com/jhfnetboy/MarkDownImg/main/img/202412021146175.png)
+If you want to add the shadcn/ui Aptos wallet selector to your shadcn-based app, follow these steps:
 
-## Architecture
+- Follow the [shadcn/ui installation instructions](https://ui.shadcn.com/docs/installation) if you haven't already configured it in your app.
 
-## Progress
+- Run the following command to install all of the shadcn/ui components that the wallet selector depends on:
 
-### Initiate Aptos CLI
-
-```
-aptos init --network testnet  or devnet
-
-got:
- Account 0x9d784d8c3f469661767f2c428a915246548486e711eff740a0d12ddfe603efff doesn't exist, creating it and funding it with 100000000 Octas
-Account 0x9d784d8c3f469661767f2c428a915246548486e711eff740a0d12ddfe603efff funded successfully
-
-aptos config show-profiles
-
-got:
-{
-  "Result": {
-    "default": {
-      "has_private_key": true,
-      "public_key": "0xcff4046e58182165a372760809acf7bc72d195c746fbf74aa99de8bd3578f3d0",
-      "account": "9d784d8c3f469661767f2c428a915246548486e711eff740a0d12ddfe603efff",
-      "rest_url": "https://fullnode.devnet.aptoslabs.com",
-      "faucet_url": "https://faucet.devnet.aptoslabs.com"
-    }
-  }
-}
-
-aptos account list --query balance
-
-got:
-{
-  "Result": [
-    {
-      "coin": {
-        "value": "100000000"
-      },
-      "deposit_events": {
-        "counter": "0",
-        "guid": {
-          "id": {
-            "addr": "0x9d784d8c3f469661767f2c428a915246548486e711eff740a0d12ddfe603efff",
-            "creation_num": "2"
-          }
-        }
-      },
-      "frozen": false,
-      "withdraw_events": {
-        "counter": "0",
-        "guid": {
-          "id": {
-            "addr": "0x9d784d8c3f469661767f2c428a915246548486e711eff740a0d12ddfe603efff",
-            "creation_num": "3"
-          }
-        }
-      }
-    }
-  ]
-}
-
+```bash
+npx shadcn-ui@latest add button collapsible dialog dropdown-menu toast
 ```
 
-### Create app
+- Copy the [wallet-selector.tsx](./src/components/WalletSelector.tsx) file from this repo to your `src/components/` directory.
 
-```
-npx create-aptos-dapp@latest
+- If you have not already configured `AptosWalletAdapterProvider` for your app, you can also copy the [wallet-provider.tsx](./src/components/WalletProvider.tsx) file from this repo. Be sure to install the `@aptos-labs/wallet-adapter-react` package and the wallet adapter plugins for the wallet options you plan to support.
 
-got:
-Success! You're ready to start building your dapp on Aptos.
+- Wrap your app with the `WalletProvider` component. See [layout.tsx](./src/app/layout.tsx) for an example.
 
-API-key:
-aptoslabs_GHmmSAjuar5_9PjHbMorG112krPMpWkyPXRMMMmdJhb7
+- Render `<WalletSelector />` in your app where you want to place the "Connect Wallet" button. See [page.tsx](./src/app/page.tsx) as an example.
 
-npm install(if you need to install dependencies)
+## Run demo app locally
 
-```
+First, run the development server:
 
-```
-M aptos move new --name arcadia_move --profile default
-```
-
-### Run the app
-
-```
+```bash
 npm run dev
-
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
 ```
---------------------------------
 
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-## Features Roadmap
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-### V0.1 Core Features
+## Learn more
 
-| Feature Category | Description | Implementation Details | Tech Detail |
-|-----------------|-------------|------------------------|-------------|
-| Authentication | Email login via AptosConnect | Basic email authentication | - AptosConnect SDK integration<br>- JWT token management<br>- Session handling |
-| NFT Marketplace | Basic NFT trading with APT/PNTs | - Purchase NFT heroes and equipment<br>- Fixed price listings | - Smart contract for NFT trading<br>- APT/PNT token integration<br>- Metadata storage on IPFS |
-| Hero System | Hero NFTs and Dungeon Battles | - Basic hero NFT implementation<br>- Simple attribute system<br>- Basic dungeon battle mechanics<br>- PNT token rewards | - ERC-721 compatible NFTs<br>- On-chain attribute storage<br>- Battle logic in Move<br>- PNT reward distribution system |
-| Coupon System | Basic redemption mechanics | - QR code/numeric code generation<br>- Basic redemption verification | - QR generation library<br>- Verification smart contract<br>- Coupon metadata storage |
-| Business Portal | Merchant coupon management | - Basic merchant login<br>- Simple coupon write-off interface | - Merchant authentication system<br>- Write-off transaction handling<br>- Business profile storage |
-| Game Mechanics | Core gameplay systems | - On-chain NFT hero loading/saving<br>- Basic PNT wallet integration<br>- Simple skill tree<br>- Basic equipment system<br>- Single art style for equipment<br>- Server-side map/dungeon system | - Move modules for game logic<br>- State management system<br>- Equipment/skill data structures<br>- Map generation algorithms |
+To learn more about Next.js, take a look at the following resources:
 
-### V0.2 Enhanced Features
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-| Feature Category | Planned Improvements | Tech Detail |
-|-----------------|---------------------|-------------|
-| Authentication | - Enhanced security with email + fingerprint verification | - Biometric authentication integration<br>- Enhanced security protocols<br>- Multi-factor auth system |
-| NFT Marketplace | - Community marketplace features<br>- Player-to-player NFT trading<br>- Custom shops implementation | - P2P trading smart contracts<br>- Dynamic pricing mechanisms<br>- Shop management system |
-| Hero System | - Conversion to Soul-Bound Tokens (SBT)<br>- PvP arena implementation<br>- Enhanced battle mechanics | - SBT implementation in Move<br>- PvP matchmaking system<br>- Advanced battle algorithms |
-| Community Features | - Integrated shop system<br>- Community interaction tools<br>- Enhanced marketplace features | - Social features backend<br>- Community governance system<br>- Reputation system |
-| Business Tools | - Mobile app for merchants<br>- QR scanning functionality<br>- Enhanced code input system | - Mobile app development<br>- Native QR scanning<br>- Offline verification system |
-| Game Mechanics | - On-chain map registration<br>- Custom map editor integration<br>- Advanced skill tree system<br>- Expanded equipment variety<br>- Multiple art styles<br>- Enhanced upgrade paths | - Map verification system<br>- Custom editor integration<br>- Advanced skill tree algorithms<br>- Equipment combination system |
+- [shadcn/ui Documentation](https://ui.shadcn.com/docs) - learn about shadcn/ui features and API.
