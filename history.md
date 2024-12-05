@@ -114,3 +114,8 @@ arcadia-game/
 │
 ├── package.json
 └── tsconfig.json
+
+## v0.02
+
+1. page.tsx is a home page, show the game introduction and some pictures, follow this page: https://godsunchained.com/ style
+2. move the "connect a wallet" button to be the login button in the top right corner

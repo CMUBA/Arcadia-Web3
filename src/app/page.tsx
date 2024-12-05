@@ -56,16 +56,30 @@ export default function Home() {
 
   return (
     <main className="flex flex-col w-full max-w-[1000px] p-6 pb-12 md:px-8 gap-6">
-      <div className="flex justify-between gap-6 pb-10">
+      <div className="flex justify-between items-center gap-6 pb-10">
         <div className="flex flex-col gap-2 md:gap-3">
           <h1 className="text-xl sm:text-3xl font-semibold tracking-tight">
-            Aracadia V0.01
+            Arcadia V0.01
             {network?.name ? ` — ${network.name}` : ""}
           </h1>
         </div>
-        <ThemeToggle />
+        <div className="flex items-center gap-4">
+          <ThemeToggle />
+          <ShadcnWalletSelector />
+        </div>
       </div>
-      <WalletSelection />
+
+      <section className="flex flex-col items-center text-center gap-6">
+        <h2 className="text-2xl font-bold">Welcome to Arcadia</h2>
+        <p className="text-lg">
+          Explore the world of Arcadia, where heroes are born and adventures await.
+        </p>
+        <div className="flex gap-4">
+          <Image src="/images/hero1.png" alt="Hero 1" width={300} height={200} />
+          <Image src="/images/hero2.png" alt="Hero 2" width={300} height={200} />
+        </div>
+      </section>
+
       {connected && (
         <WalletConnection
           account={account}
