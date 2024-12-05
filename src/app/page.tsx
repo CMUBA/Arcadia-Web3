@@ -55,6 +55,7 @@ if (isTelegramMiniApp) {
 
 export default function Home() {
   const { account, connected, network, wallet, changeNetwork } = useWallet();
+  const { autoConnect, setAutoConnect } = useAutoConnect();
 
   return (
     <main className="flex flex-col w-full max-w-[1000px] p-6 pb-12 md:px-8 gap-6">
@@ -66,6 +67,23 @@ export default function Home() {
           </h1>
         </div>
         <div className="flex items-center gap-4">
+          {connected && account && (
+            <span className="text-sm text-muted-foreground">
+              {account.address.slice(0, 6)}...{account.address.slice(-4)}
+            </span>
+          )}
+          
+          <div className="flex items-center gap-2">
+            <Switch
+              id="auto-connect-switch"
+              checked={autoConnect}
+              onCheckedChange={setAutoConnect}
+            />
+            <Label htmlFor="auto-connect-switch" className="text-sm">
+              Auto-connect
+            </Label>
+          </div>
+          
           <ThemeToggle />
           <ShadcnWalletSelector />
         </div>

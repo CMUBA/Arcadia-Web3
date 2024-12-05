@@ -4,6 +4,7 @@ import { Card } from "@/components/ui/card";
 import { useWallet } from "@aptos-labs/wallet-adapter-react";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import Link from "next/link";
 
 export default function LandingPage() {
   const { account } = useWallet();
@@ -32,10 +33,14 @@ export default function LandingPage() {
       <section className="mb-12">
         <h2 className="text-2xl font-bold mb-4">Town</h2>
         <div className="grid grid-cols-3 gap-4">
-          <Card className="p-6">
-            <h3 className="font-bold mb-2">NFT Marketplace</h3>
-            {/* Add marketplace content */}
-          </Card>
+          <Link href="/marketplace" className="block">
+            <Card className="p-6 hover:bg-accent transition-colors cursor-pointer">
+              <h3 className="font-bold mb-2">NFT Marketplace</h3>
+              <p className="text-sm text-muted-foreground">
+                Mint and collect unique heroes
+              </p>
+            </Card>
+          </Link>
           <Card className="p-6">
             <h3 className="font-bold mb-2">Redeem Racks</h3>
             {/* Add shop content */}

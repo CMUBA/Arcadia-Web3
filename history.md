@@ -117,10 +117,24 @@ arcadia-game/
 
 ## v0.02
 
-1. page.tsx is a home page, show the game introduction and some pictures, follow this page: https://godsunchained.com/ style
-2. move the "connect a wallet" button to be the login button in the top right corner
-done
+1. page.tsx is a home page, show the game introduction and some pictures, follow this page: https://godsunchained.com/ style.
 
-3. please add a Play button after Wallet Connected in the Wallet Connection card area.
+2. move the "connect a wallet" button to be the login button in the top right corner.
+
+3. add a Play button after Wallet Connected in the Wallet Connection card area.
+
 4. after click play button, it will redirect to the landing page, which include select a NFT in the market place and minting NFT and if you has a NFT, then loading NFT hero to the game page automatically.
+
 5. landing page include three sections introduction: Beginner Guide, Town Section, Space Map Section, besides the nft market place.
+6. move switch button: Auto reconnect on page load to the top right corner.
+7. add a address label in the landing page, show the connected address.
+8. follow the NFT minting template: https://learn.aptoslabs.com/en/dapp-templates/nft-minting-template, create the market feature, source code.
+9. 
+```
+To complete the integration:
+Replace the CONTRACT_ADDRESS in src/lib/contract.ts with your deployed contract address
+Update the function names in NFT_FUNCTIONS to match your Move contract
+Update the collection info and token URI format in COLLECTION_INFO and createTokenUri
+1. Add proper error handling for contract-specific errors
+
+```
