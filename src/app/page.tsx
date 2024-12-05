@@ -61,17 +61,9 @@ export default function Home() {
       <div className="flex justify-between gap-6 pb-10">
         <div className="flex flex-col gap-2 md:gap-3">
           <h1 className="text-xl sm:text-3xl font-semibold tracking-tight">
-            Aptos Wallet Adapter Tester
+            Aracadia V0.01
             {network?.name ? ` — ${network.name}` : ""}
           </h1>
-          <a
-            href="https://github.com/aptos-labs/aptos-wallet-adapter/tree/main/apps/nextjs-example"
-            target="_blank"
-            rel="noreferrer"
-            className="text-sm text-muted-foreground underline underline-offset-2 font-medium leading-none"
-          >
-            Demo App Source Code
-          </a>
         </div>
         <ThemeToggle />
       </div>
@@ -111,24 +103,11 @@ function WalletSelection() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Wallet Selection</CardTitle>
-        <CardDescription>
-          Connect a wallet using one of the following wallet selectors.
-        </CardDescription>
       </CardHeader>
       <CardContent>
         <div className="flex flex-wrap gap-6 pt-6 pb-12 justify-between items-center">
           <div className="flex flex-col gap-4 items-center">
-            <div className="text-sm text-muted-foreground">shadcn/ui</div>
             <ShadcnWalletSelector />
-          </div>
-          <div className="flex flex-col gap-4 items-center">
-            <div className="text-sm text-muted-foreground">Ant Design</div>
-            <AntdWalletSelector />
-          </div>
-          <div className="flex flex-col gap-4 items-center">
-            <div className="text-sm text-muted-foreground">Material UI</div>
-            <MuiWalletSelector />
           </div>
         </div>
         <label className="flex items-center gap-4 cursor-pointer">
