@@ -20,7 +20,7 @@ export default function LandingPage() {
   }, [account, router]);
 
   return (
-    <main className="flex flex-col gap-8 p-8">
+    <div className="flex flex-col gap-8 py-6">
       {/* Beginner Guide Section */}
       <section className="mb-12">
         <h2 className="text-2xl font-bold mb-4">Beginner Guide</h2>
@@ -33,14 +33,10 @@ export default function LandingPage() {
       <section className="mb-12">
         <h2 className="text-2xl font-bold mb-4">Town</h2>
         <div className="grid grid-cols-3 gap-4">
-          <Link href="/marketplace" className="block">
-            <Card className="p-6 hover:bg-accent transition-colors cursor-pointer">
-              <h3 className="font-bold mb-2">NFT Marketplace</h3>
-              <p className="text-sm text-muted-foreground">
-                Mint and collect unique heroes
-              </p>
-            </Card>
-          </Link>
+          <Card className="p-6">
+            <h3 className="font-bold mb-2">NFT Marketplace</h3>
+            {/* Add marketplace content */}
+          </Card>
           <Card className="p-6">
             <h3 className="font-bold mb-2">Redeem Racks</h3>
             {/* Add shop content */}
@@ -59,6 +55,6 @@ export default function LandingPage() {
           <p>Begin your adventure here...</p>
         </Card>
       </section>
-    </main>
+    </div>
   );
 }

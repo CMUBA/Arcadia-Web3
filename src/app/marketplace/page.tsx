@@ -23,7 +23,7 @@ interface NFT {
   price?: number;
 }
 
-export default function Marketplace() {
+export default function MarketplacePage() {
   const { account, connected, network, signAndSubmitTransaction } = useWallet();
   const { toast } = useToast();
   const [nfts, setNfts] = useState<NFT[]>([]);
@@ -128,7 +128,7 @@ export default function Marketplace() {
   };
 
   return (
-    <div className="container mx-auto p-4">
+    <div className="flex flex-col gap-8 py-6">
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-3xl font-bold">Arcadia NFT Marketplace</h1>
         <Button onClick={mintNFT}>Mint New NFT</Button>

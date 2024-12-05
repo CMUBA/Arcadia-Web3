@@ -58,37 +58,7 @@ export default function Home() {
   const { autoConnect, setAutoConnect } = useAutoConnect();
 
   return (
-    <main className="flex flex-col w-full max-w-[1000px] p-6 pb-12 md:px-8 gap-6">
-      <div className="flex justify-between items-center gap-6 pb-10">
-        <div className="flex flex-col gap-2 md:gap-3">
-          <h1 className="text-xl sm:text-3xl font-semibold tracking-tight">
-            Arcadia V0.01
-            {network?.name ? ` — ${network.name}` : ""}
-          </h1>
-        </div>
-        <div className="flex items-center gap-4">
-          {connected && account && (
-            <span className="text-sm text-muted-foreground">
-              {account.address.slice(0, 6)}...{account.address.slice(-4)}
-            </span>
-          )}
-          
-          <div className="flex items-center gap-2">
-            <Switch
-              id="auto-connect-switch"
-              checked={autoConnect}
-              onCheckedChange={setAutoConnect}
-            />
-            <Label htmlFor="auto-connect-switch" className="text-sm">
-              Auto-connect
-            </Label>
-          </div>
-          
-          <ThemeToggle />
-          <ShadcnWalletSelector />
-        </div>
-      </div>
-
+    <div className="flex flex-col gap-6 py-6">
       <section className="flex flex-col items-center text-center gap-6">
         <h2 className="text-2xl font-bold">Welcome to Arcadia</h2>
         <p className="text-lg">
@@ -125,7 +95,7 @@ export default function Home() {
           <MultiAgent />
         </>
       )}
-    </main>
+    </div>
   );
 }
 
