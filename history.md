@@ -138,3 +138,19 @@ Update the collection info and token URI format in COLLECTION_INFO and createTok
 1. Add proper error handling for contract-specific errors
 
 ```
+
+### V0.02 Tech stack
+
+- Next.js(npx create-aptos-dapp@latest, NFT minting template)
+- Aptos Wallet Adapter, based on [nextjs-example](https://github.com/aptos-labs/aptos-wallet-adapter/tree/main/apps/nextjs-example) (Aptos Connect)
+- Shadcn UI/Tailwind CSS and more
+- Move(aptos-core)
+- [Node API]([https://aptos.dev/en/build/apis/fullnode-rest-api-reference])(aptos-core)
+
+### Bugs
+
+1. Auto reconnect on page load is not working.
+   - https://aptos-labs.github.io/aptos-wallet-adapter/
+   - https://localhost:3000/
+
+2. NFT minting template is not working.
