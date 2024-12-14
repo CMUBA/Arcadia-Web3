@@ -225,3 +225,64 @@ Based on the v0.1.2, we will create a MVP version, which include the following f
      },
      1. have a page to show: enter hero name and click mint button, then mint NFT to the user's account
      2. this page is part of the landing page,town section, we add a new area: Free hero with button "mint"
+
+
+### Dev and test
+
+Run all tests
+aptos move test
+
+Run tests with coverage
+aptos move test --coverage
+
+Run specific test
+aptos move test --filter hero_tests
+
+aptos init --network testnet
+aptos account fund-with-faucet --account default
+aptos move publish --named-addresses arcadia=0x9d784d8c3f469661767f2c428a915246548486e711eff740a0d12ddfe603efff --network testnet
+
+aptos move publish hero-example.move --named-addresses arcadia=0x9d784d8c3f469661767f2c428a915246548486e711eff740a0d12ddfe603efff --network testnet
+
+
+aptos move compile --named-addresses hero=default
+
+aptos move compile --named-addresses arcadia=default --skip-attribute-checks
+
+aptos move publish --named-addresses arcadia=default --skip-attribute-checks
+
+aptos move publish --named-addresses arcadia=default --skip-attribute-checks --network testnet
+
+# Compile with test profile
+aptos move compile --named-addresses arcadia=default --profile test
+
+# Run tests
+aptos move test --named-addresses arcadia=default
+
+
+aptos config show-profiles
+
+aptos init --profile testnet --network testnet
+
+aptos account fund-with-faucet --account 0x16db0d88ea3e35825a4b9e5d4aabfbd974fd555775c1cb0126718a18db8b18e9
+
+aptos move publish \
+  --skip-attribute-checks \
+  --named-addresses arcadia=57ef10b60a1c9027598887e41b8590c16b9ab3c660e883e363706a4294a49066 \
+  --profile devnet
+
+  aptos move publish \
+  --skip-attribute-checks \
+  --named-addresses arcadia=57ef10b60a1c9027598887e41b8590c16b9ab3c660e883e363706a4294a49066 \
+  --profile devnet \
+  --assume-yes
+
+  aptos move publish \
+  --skip-attribute-checks \
+  --named-addresses arcadia=57ef10b60a1c9027598887e41b8590c16b9ab3c660e883e363706a4294a49066 \
+  --profile devnet \
+  --assume-yes \
+  --bytecode-version 6
+
+
+  aptos move compile --named-addresses arcadia=57ef10b60a1c9027598887e41b8590c16b9ab3c660e883e363706a4294a49066 --skip-attribute-checks
