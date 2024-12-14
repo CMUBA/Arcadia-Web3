@@ -1,7 +1,9 @@
-export const CONTRACT_ADDRESS = "0x1"; // Replace with your deployed contract address
+import { ENV } from '@/config/env';
+
+export const CONTRACT_ADDRESS = ENV.CONTRACT_ADDRESS!;
 
 export const NFT_FUNCTIONS = {
-  MINT: `${CONTRACT_ADDRESS}::nft::mint_nft`,
+  MINT: `${CONTRACT_ADDRESS}::hero::mint_hero`,
   BUY: `${CONTRACT_ADDRESS}::marketplace::buy_token`,
   LIST: `${CONTRACT_ADDRESS}::marketplace::list_token`,
   DELIST: `${CONTRACT_ADDRESS}::marketplace::delist_token`,

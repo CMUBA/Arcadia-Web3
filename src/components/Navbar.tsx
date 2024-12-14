@@ -1,58 +1,37 @@
 "use client";
 
-import { ThemeToggle } from "@/components/ThemeToggle";
-import { WalletSelector } from "@/components/WalletSelector";
-import { useAutoConnect } from "@/components/AutoConnectProvider";
-import { Switch } from "@/components/ui/switch";
-import { Label } from "@/components/ui/label";
+import { WalletSelector } from "./WalletSelector";
+import { ThemeToggle } from "./ThemeToggle";
+import { useHero } from "./HeroProvider";
+import { useWallet } from "@aptos-labs/wallet-adapter-react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 
 export function Navbar() {
-  const pathname = usePathname();
-  const { autoConnect, setAutoConnect } = useAutoConnect();
+  const { connected } = useWallet();
+  const { hero } = useHero();
 
   return (
-    <nav className="border-b w-full bg-background sticky top-0 z-50">
-      <div className="max-w-[1000px] mx-auto px-6 md:px-8">
-        <div className="flex h-16 items-center justify-between">
-          <div className="flex items-center gap-6">
-            <Link href="/" className="font-bold text-xl">
-              Arcadia
-            </Link>
-            
-            <div className="flex gap-4">
-              <Link 
-                href="/landing"
-                className={`${pathname === '/landing' ? 'text-primary font-medium' : 'text-muted-foreground'} hover:text-primary transition-colors`}
-              >
-                Landing
-              </Link>
-              <Link 
-                href="/marketplace"
-                className={`${pathname === '/marketplace' ? 'text-primary font-medium' : 'text-muted-foreground'} hover:text-primary transition-colors`}
-              >
-                Marketplace
-              </Link>
+    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <div className="container flex h-14 items-center">
+        <div className="mr-4 flex">
+          <Link href="/" className="mr-6 flex items-center space-x-2">
+            <span className="font-bold">Arcadia</span>
+          </Link>
+          <nav className="flex items-center space-x-6 text-sm font-medium">
+            <Link href="/marketplace">Marketplace</Link>
+            <Link href="/landing">Game</Link>
+          </nav>
+        </div>
+        <div className="flex flex-1 items-center justify-end space-x-4">
+          {hero && (
+            <div className="text-sm">
+              Level {hero.level} Hero
             </div>
-          </div>
-
-          <div className="flex items-center gap-4">
-            <label className="flex items-center gap-2 cursor-pointer">
-              <Switch
-                id="auto-connect-switch"
-                checked={autoConnect}
-                onCheckedChange={setAutoConnect}
-              />
-              <Label htmlFor="auto-connect-switch" className="text-sm">
-                Auto reconnect
-              </Label>
-            </label>
-            <ThemeToggle />
-            <WalletSelector />
-          </div>
+          )}
+          <ThemeToggle />
+          <WalletSelector />
         </div>
       </div>
-    </nav>
+    </header>
   );
 } 

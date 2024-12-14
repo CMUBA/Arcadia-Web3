@@ -1,5 +1,7 @@
 # V0.1 user case list
 
+[TOC]
+
 ## We will create
 
 - homepage
@@ -77,7 +79,7 @@
 - The hero's experience is the sum of the attributes
 
 
-## v0.01
+## v0.1.1
 
 arcadia-game/
 ├── pages/                    # Move from frontend/pages to root
@@ -115,7 +117,7 @@ arcadia-game/
 ├── package.json
 └── tsconfig.json
 
-## v0.02
+## v0.1.2
 
 1. page.tsx is a home page, show the game introduction and some pictures, follow this page: https://godsunchained.com/ style.
 
@@ -139,7 +141,7 @@ Update the collection info and token URI format in COLLECTION_INFO and createTok
 
 ```
 
-### V0.02 Tech stack
+### V0.1.2 Tech stack
 
 - Next.js(npx create-aptos-dapp@latest, NFT minting template)
 - Aptos Wallet Adapter, based on [nextjs-example](https://github.com/aptos-labs/aptos-wallet-adapter/tree/main/apps/nextjs-example) (Aptos Connect)
@@ -154,3 +156,72 @@ Update the collection info and token URI format in COLLECTION_INFO and createTok
    - https://localhost:3000/
 
 2. NFT minting template is not working.
+
+# V0.2 MVP design
+
+Based on the v0.1.2, we will create a MVP version, which include the following features:
+
+1. Register and login(finished in V0.1.2)
+   - with a bug: auto reconnect on page load is not working.
+2. Buy NFT(with APT or USDT)
+	1. Move onchain contractversion
+		1. hero nft mint
+		2. hero nft buy
+3. Load NFT hero attributes
+   - with your account address
+4. hero data save structure
+   - PNTs, server will transfer to your account
+   - hero attributes
+   - equipments, NFT, like PNTs
+5. saving record data structure example(with a new hero attributes)
+    ```json
+   { "PNTs": 100,
+     "hero_attributes": {
+      "name": "hero", // defined by user
+      "agile": 5,
+      "attack": 10,
+      "health": 100,
+      "defense": 5,
+      <!-- "rank": 1, -->
+      <!-- "achievements": [], -->
+      <!-- "stamina": 100,  -->
+     },
+     "equipments": [
+       {
+         "name": "Royal Armor",
+         "attributes": {
+           "attack": 10,
+           "defense": 5
+         },
+         "hash": "0x1234567890123456789012345678901234567890" // signature of the drop server, verify by the server again
+       }
+     ],
+     "signature": "0x1234567890123456789012345678901234567890" // signature of the saving record by local wallet
+   }
+   ```
+6. Saving record flow
+	1. when user login the server first time, the server will send 10 saving ticket to the client
+   	1. client send one ticket back to the server when user save the game
+   	2. ticket is a random string signed by the server, and when the server receive the ticket, it will verify and save the game to the chain, then write-off the ticket
+	2. User need not save the game manually, after clear a round or get something drop, check the time between the last saving time, if over 5 minutes, apply the server, the server can send answer to the client and save the game
+	3. the server will verify the saving record whether be legal, include location and saving ticket
+	4. User save the game to the server, and server will save the game to the chain after 30 minutes
+
+## V0.2.1
+
+### Main feature: Mint NFT by user(buy NFT)
+1. we have a hero contract here: https://github.com/aptos-labs/aptos-core/blob/main/aptos-move/move-examples/token_objects/hero/sources/hero.move
+2. we will use this contract to mint NFT
+3. But we need to modify the hero contract to fit the MVP design features, inlude:
+   1. NFT hero attributes: "hero_attributes": {
+      "name": "hero", // defined by user
+      "agile": 5,
+      "attack": 10,
+      "health": 100,
+      "defense": 5,
+      <!-- "rank": 1, -->
+      <!-- "achievements": [], -->
+      <!-- "stamina": 100,  -->
+     },
+     1. have a page to show: enter hero name and click mint button, then mint NFT to the user's account
+     2. this page is part of the landing page,town section, we add a new area: Free hero with button "mint"

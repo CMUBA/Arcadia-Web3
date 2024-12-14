@@ -9,6 +9,7 @@ import { Inter as FontSans } from "next/font/google";
 import { AutoConnectProvider } from "@/components/AutoConnectProvider";
 import { ReactQueryClientProvider } from '@/components/ReactQueryClientProvider';
 import { Navbar } from "@/components/Navbar";
+import { HeroProvider } from "@/components/HeroProvider";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -16,8 +17,8 @@ const fontSans = FontSans({
 });
 
 export const metadata: Metadata = {
-  title: "Aptos Wallet Adapter Example",
-  description: "An example of how to use Aptos Wallet Adapter with React and Next.js.",
+  title: "Arcadia Game",
+  description: "Welcome to Arcadia - A Web3 Gaming Universe",
 };
 
 export default function RootLayout({
@@ -40,15 +41,17 @@ export default function RootLayout({
           >
             <WalletProvider>
               <AutoConnectProvider>
-                <div className="min-h-screen flex flex-col">
-                  <Navbar />
-                  <main className="flex-1">
-                    <div className="max-w-[1000px] mx-auto px-6 md:px-8">
-                      {children}
-                    </div>
-                  </main>
-                </div>
-                <Toaster />
+                <HeroProvider>
+                  <div className="min-h-screen flex flex-col">
+                    <Navbar />
+                    <main className="flex-1">
+                      <div className="max-w-[1000px] mx-auto px-6 md:px-8">
+                        {children}
+                      </div>
+                    </main>
+                  </div>
+                  <Toaster />
+                </HeroProvider>
               </AutoConnectProvider>
             </WalletProvider>
           </ThemeProvider>
