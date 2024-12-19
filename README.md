@@ -1,3 +1,6 @@
+# Arcadia
+Access from https://arcadia.cmuba.org/
+
 ## How to run the project
 
 1. `npm install`
@@ -19,7 +22,9 @@
 
 4. access http://localhost:5173/
 
-## Create Aptos Dapp NFT minting dapp Template
+5. More configuration, check next section
+
+## How to use Aptos Dapp NFT minting dapp Template
 
 Digital Assets are the NFT standard for Aptos. The Digital Asset template provides an end-to-end NFT minting dapp with a beautiful pre-made UI users can quickly adjust and deploy into a live server.
 
