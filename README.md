@@ -1,3 +1,24 @@
+## How to run the project
+
+1. `npm install`
+2. add .env file in root
+   ```
+    PROJECT_NAME=nft-mint(change with your own address)
+    VITE_APP_NETWORK=mainnet
+    VITE_COLLECTION_CREATOR_ADDRESS=0x7664630eca412a243674da5b9ac58ad5a7fc2d54557d6563905a9c80f25faf66
+    VITE_APTOS_API_KEY=""
+    VITE_MODULE_PUBLISHER_ACCOUNT_ADDRESS=0x7664630eca412a243674da5b9ac58ad5a7fc2d54557d6563905a9c80f25faf66
+    #This is the module publisher account's private key. Be cautious about who you share it with, and ensure it is not exposed when deploying your dApp.
+    VITE_MODULE_PUBLISHER_ACCOUNT_PRIVATE_KEY=
+
+    #To fill after you create a collection, will be used for the minting page
+    VITE_COLLECTION_ADDRESS="0xbce80457b6911b37c73a67f0996f5c000f4f9a9ad6b5bf240d45a5f613e73592"
+    VITE_MODULE_ADDRESS=0xff8f6b4c41bc8995c354d38465ccf811c4fa9f35b02c58b454f6b0cc841e0abb
+```
+3. `npm run dev`
+
+4. access http://localhost:5173/
+
 ## Create Aptos Dapp NFT minting dapp Template
 
 Digital Assets are the NFT standard for Aptos. The Digital Asset template provides an end-to-end NFT minting dapp with a beautiful pre-made UI users can quickly adjust and deploy into a live server.
