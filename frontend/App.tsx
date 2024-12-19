@@ -1,45 +1,23 @@
-import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
-
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { NavBar } from "./components/NavBar";
+import { TownPage } from "./pages/Town";
 import { Mint } from "@/pages/Mint";
 import { CreateCollection } from "@/pages/CreateCollection";
 import { MyCollections } from "@/pages/MyCollections";
-import { TopBanner } from "./components/TopBanner";
-import { IS_DEV } from "./constants";
-
-function Layout() {
-  return (
-    <>
-      <Outlet />
-    </>
-  );
-}
-
-const router = createBrowserRouter([
-  {
-    element: <Layout />,
-    children: [
-      {
-        path: "/",
-        element: <Mint />,
-      },
-      {
-        path: "create-collection",
-        element: <CreateCollection />,
-      },
-      {
-        path: "my-collections",
-        element: <MyCollections />,
-      },
-    ],
-  },
-]);
 
 function App() {
   return (
-    <>
-      {IS_DEV && <TopBanner />}
-      <RouterProvider router={router} />
-    </>
+    <BrowserRouter>
+      <div>
+        <NavBar />
+        <Routes>
+          <Route path="/" element={<Mint />} />
+          <Route path="/town" element={<TownPage />} />
+          <Route path="/create-collection" element={<CreateCollection />} />
+          <Route path="/my-collections" element={<MyCollections />} />
+        </Routes>
+      </div>
+    </BrowserRouter>
   );
 }
 
