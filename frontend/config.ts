@@ -87,8 +87,9 @@ export const config: Config = {
 
 export interface Config {
   socials?: {
-    twitter?: "cmuba_th";
+    twitter?: string;
     discord?: string;
+    telegram?: string;
     homepage?: "https://cmuba.org";
   };
 
