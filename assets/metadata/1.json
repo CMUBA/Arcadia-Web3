@@ -1,0 +1,12 @@
+{
+  "description": "nft 1 in Arcadia collection",
+  "image": "",
+  "name": "NFT 1",
+  "external_url": "https://arcadia.cmuba.org/1",
+  "attributes": [
+    {
+      "trait_type": "optional_trait",
+      "value": "1"
+    }
+  ]
+}

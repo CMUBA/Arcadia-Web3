@@ -1,66 +1,36 @@
-## Foundry
+## Create Aptos Dapp NFT minting dapp Template
 
-**Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
+Digital Assets are the NFT standard for Aptos. The Digital Asset template provides an end-to-end NFT minting dapp with a beautiful pre-made UI users can quickly adjust and deploy into a live server.
 
-Foundry consists of:
+## Read the NFT minting dapp template docs
+To get started with the NFT minting dapp template and learn more about the template functionality and usage, head over to the [NFT minting dapp template docs](https://learn.aptoslabs.com/en/dapp-templates/nft-minting-template) 
 
--   **Forge**: Ethereum testing framework (like Truffle, Hardhat and DappTools).
--   **Cast**: Swiss army knife for interacting with EVM smart contracts, sending transactions and getting chain data.
--   **Anvil**: Local Ethereum node, akin to Ganache, Hardhat Network.
--   **Chisel**: Fast, utilitarian, and verbose solidity REPL.
+## The NFT minting dapp template provides 3 pages:
 
-## Documentation
+- **Public Mint NFT Page** - A page for the public to mint NFTs.
+- **Create Collection Page** - A page for creating new NFT collections. This page is not accessible on production.
+- **My Collections Page** - A page to view all the collections created under the current Move module (smart contract). This page is not accessible on production.
 
-https://book.getfoundry.sh/
+## What tools the template uses?
 
-## Usage
+- React framework
+- Vite development tool
+- shadcn/ui + tailwind for styling
+- Aptos TS SDK
+- Aptos Wallet Adapter
+- Node based Move commands
 
-### Build
+## What Move commands are available?
 
-```shell
-$ forge build
-```
+The tool utilizes [aptos-cli npm package](https://github.com/aptos-labs/aptos-cli) that lets us run Aptos CLI in a Node environment.
 
-### Test
+Some commands are built-in the template and can be ran as a npm script, for example:
 
-```shell
-$ forge test
-```
+- `npm run move:publish` - a command to publish the Move contract
+- `npm run move:test` - a command to run Move unit tests
+- `npm run move:compile` - a command to compile the Move contract
+- `npm run move:upgrade` - a command to upgrade the Move contract
+- `npm run dev` - a command to run the frontend locally
+- `npm run deploy` - a command to deploy the dapp to Vercel
 
-### Format
-
-```shell
-$ forge fmt
-```
-
-### Gas Snapshots
-
-```shell
-$ forge snapshot
-```
-
-### Anvil
-
-```shell
-$ anvil
-```
-
-### Deploy
-
-```shell
-$ forge script script/Counter.s.sol:CounterScript --rpc-url <your_rpc_url> --private-key <your_private_key>
-```
-
-### Cast
-
-```shell
-$ cast <subcommand>
-```
-
-### Help
-
-```shell
-$ forge --help
-$ anvil --help
-$ cast --help
-```
+For all other available CLI commands, can run `npx aptos` and see a list of all available commands.

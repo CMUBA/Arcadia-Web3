@@ -1,19 +1,16 @@
 [package]
-name = "arcadia"
+name = "digital_asset_launchpad"
 version = "1.0.0"
-authors = ["Arcadia Team"]
+authors = []
 
 [addresses]
-arcadia = "57ef10b60a1c9027598887e41b8590c16b9ab3c660e883e363706a4294a49066"
-std = "0x1"
-aptos_framework = "0x1"
-aptos_token_objects = "0x4"
-
-[dev-addresses]
-arcadia = "57ef10b60a1c9027598887e41b8590c16b9ab3c660e883e363706a4294a49066"
+launchpad_addr = "_"
+initial_creator_addr = "_"
+minter = "_"
 
 [dependencies]
-AptosFramework = { git = "https://github.com/aptos-labs/aptos-core.git", subdir = "aptos-move/framework/aptos-framework/", rev = "mainnet" }
-AptosTokenObjects = { git = "https://github.com/aptos-labs/aptos-core.git", subdir = "aptos-move/framework/aptos-token-objects/", rev = "mainnet" }
+AptosFramework = { git = "https://github.com/aptos-labs/aptos-core.git", rev = "mainnet", subdir = "aptos-move/framework/aptos-framework" }
+AptosTokenObjects = { git = "https://github.com/aptos-labs/aptos-core.git", rev = "mainnet", subdir = "aptos-move/framework/aptos-token-objects" }
+TokenMinter = { git = "https://github.com/aptos-labs/token-minter.git", rev = "main", subdir = "token-minter" }
 
 [dev-dependencies]

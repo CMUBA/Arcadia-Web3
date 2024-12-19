@@ -1,0 +1,12 @@
+{
+  "description": "nft 3 in Arcadia collection",
+  "image": "",
+  "name": "NFT 3",
+  "external_url": "https://arcadia.cmuba.org/3",
+  "attributes": [
+    {
+      "trait_type": "optional_trait",
+      "value": "3"
+    }
+  ]
+}
