@@ -86,10 +86,18 @@ Requirments for players:
         }
 ```
 
-2. could I add a select box  in mint page, to switch between different collections we config in config.ts or other config files? We can only show on collection now depends on .env config
+2. 1. if user does not login, home page will show a full screen video as background with text: "Welcome to Arcadia
+Explore the world of Arcadia, where heroes are born and adventures await.", 
+2. if logined and get user's address, use this api:@https://developer.nodit.io/reference/get-nfts-by-account , to fetch user's nft data and show this home page now: show hero stats and equipment and inventory, also, the data coming from fetching user's data from hero contract onchain (not this time)
+3. The home page should show (after logined)
+   a. user's hero NFT metadata json structure like this json format: 4 attributes, basic, race, class, level;
+   
+   b. user's hero data in the hero contract(equipments, package, and more):
+   Hero name, weapon, shield, armor, helm
+   c. user's PNTs token balance, in his user account address
 
-3.
-
+## New Features V3
+1. add a select box  in mint page, to switch between different collections we config in config.ts or other config files? We can only show on collection now depends on .env config
 
 ## Questions
    有几个问题请教老师，
