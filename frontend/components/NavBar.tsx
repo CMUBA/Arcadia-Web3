@@ -6,16 +6,16 @@ export function NavBar() {
     <nav className="flex justify-between items-center p-4 bg-gray-800">
       <div className="flex gap-4">
         <Link 
+          to="/home" 
+          className="text-white hover:text-gray-300"
+        >
+          Home
+        </Link>
+        <Link 
           to="/" 
           className="text-white hover:text-gray-300"
         >
           Market
-        </Link>
-        <Link 
-          to="/town" 
-          className="text-white hover:text-gray-300"
-        >
-          Town
         </Link>
       </div>
       <WalletSelector />

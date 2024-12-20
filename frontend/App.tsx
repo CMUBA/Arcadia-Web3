@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { NavBar } from "./components/NavBar";
-import { TownPage } from "./pages/Town";
+import { HomePage } from "./pages/Home";
 import { Mint } from "@/pages/Mint";
 import { CreateCollection } from "@/pages/CreateCollection";
 import { MyCollections } from "@/pages/MyCollections";
@@ -12,7 +12,7 @@ function App() {
         <NavBar />
         <Routes>
           <Route path="/" element={<Mint />} />
-          <Route path="/town" element={<TownPage />} />
+          <Route path="/home" element={<HomePage />} />
           <Route path="/create-collection" element={<CreateCollection />} />
           <Route path="/my-collections" element={<MyCollections />} />
         </Routes>

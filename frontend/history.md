@@ -58,7 +58,7 @@ Requirments for players:
 5. add a area to show hero cards, the hero cards show the hero attributes and skills from NFT.
 
 ## New Features V2
-0. example metadata of EIP1155(more here: https://github.com/ethereum/ercs/blob/master/ERCS/erc-1155.md)
+1. example metadata of EIP1155(more here: https://github.com/ethereum/ercs/blob/master/ERCS/erc-1155.md)
    ```json
         {
             "name": "Asset Name",
@@ -85,13 +85,11 @@ Requirments for players:
             }
         }
 ```
-1. we will upgrade the metadata to add more attributes and skills for each hero.
-   ```json
 
-{
-    
-}
-   '''
+2. could I add a select box  in mint page, to switch between different collections we config in config.ts or other config files? We can only show on collection now depends on .env config
+
+3.
+
 
 ## Questions
    有几个问题请教老师，
