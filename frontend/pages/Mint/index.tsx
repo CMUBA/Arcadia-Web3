@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useWallet } from "@aptos-labs/wallet-adapter-react";
 import { useEffect } from "react";
@@ -15,26 +16,45 @@ import { ConnectWalletAlert } from "@/pages/Mint/components/ConnectWalletAlert";
 import { useGetCollectionData } from "@/hooks/useGetCollectionData";
 
 import { Header } from "@/components/Header";
+import { NavBar } from "../../components/NavBar";
+import { Collection, COLLECTIONS } from '../../config/collections';
 
 export function Mint() {
   const { data, isLoading } = useGetCollectionData();
-
   const queryClient = useQueryClient();
   const { account } = useWallet();
+  const [selectedCollection, setSelectedCollection] = useState<Collection>(COLLECTIONS[0]);
+
   useEffect(() => {
     queryClient.invalidateQueries();
   }, [account, queryClient]);
 
+  const handleCollectionSelect = (collection: Collection) => {
+    setSelectedCollection(collection);
+  };
+
   if (isLoading) {
     return (
-      <div className="text-center p-8">
-        <h1 className="title-md">Loading...</h1>
-      </div>
+      <>
+        <NavBar 
+          onCollectionSelect={handleCollectionSelect}
+          currentCollectionId={selectedCollection.id}
+          showCollectionSelector={true}
+        />
+        <div className="text-center p-8">
+          <h1 className="title-md">Loading...</h1>
+        </div>
+      </>
     );
   }
 
   return (
     <>
+      <NavBar 
+        onCollectionSelect={handleCollectionSelect}
+        currentCollectionId={selectedCollection.id}
+        showCollectionSelector={true}
+      />
       <Header />
       <div style={{ overflow: "hidden" }} className="overflow-hidden">
         <main className="flex flex-col gap-10 md:gap-16 mt-6">

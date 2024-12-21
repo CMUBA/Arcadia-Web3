@@ -97,7 +97,7 @@ Explore the world of Arcadia, where heroes are born and adventures await.",
    c. user's PNTs token balance, in his user account address
 
 ## New Features V3
-1. add a select box  in mint page, to switch between different collections we config in config.ts or other config files? We can only show on collection now depends on .env config
+1. We can only show one collection now depends on .env config, please add a select box  in market page top bar, to switch between different collections we config in config.ts or other config files. 
 
 ## Questions
    有几个问题请教老师，
