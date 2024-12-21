@@ -1,5 +1,6 @@
 import { useWallet } from "@aptos-labs/wallet-adapter-react";
 import { useQuery } from "@tanstack/react-query";
+import { toast } from 'react-hot-toast';
 
 import { aptosClient } from "@/utils/aptosClient";
 import { getActiveOrNextMintStage } from "@/view-functions/getActiveOrNextMintStage";
@@ -64,7 +65,10 @@ export function useGetCollectionData(collection_address: string = COLLECTION_ADD
     refetchInterval: 1000 * 30,
     queryFn: async () => {
       try {
-        if (!collection_address) return null;
+        if (!collection_address) {
+          toast.error("Collection address is undefined");
+          return null;
+        }
 
         const res = await aptosClient().queryIndexer<MintQueryResult>({
           query: {
@@ -93,6 +97,11 @@ export function useGetCollectionData(collection_address: string = COLLECTION_ADD
 						}`,
           },
         });
+
+        if (!res.current_collections_v2[0]) {
+          toast.error(`No data found for collection: ${collection_address}`);
+          return null;
+        }
 
         const collection = res.current_collections_v2[0];
         if (!collection) return null;
@@ -139,7 +148,8 @@ export function useGetCollectionData(collection_address: string = COLLECTION_ADD
           isMintInfinite,
         } satisfies MintData;
       } catch (error) {
-        console.error(error);
+        console.error('Error fetching collection data:', error);
+        toast.error(`Error fetching collection: ${error.message}`);
         return null;
       }
     },

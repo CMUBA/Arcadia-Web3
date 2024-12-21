@@ -5,11 +5,13 @@ import { clampNumber } from "@/utils/clampNumber";
 // Internal hooks
 import { useGetCollectionData } from "@/hooks/useGetCollectionData";
 
-interface StatsSectionProps {}
+interface StatsSectionProps {
+  collectionData: any; // Replace 'any' with your actual data type
+  collectionId: string;
+}
 
-export const StatsSection: React.FC<StatsSectionProps> = () => {
-  const { data } = useGetCollectionData();
-  const { maxSupply = 0, totalMinted = 0 } = data ?? {};
+export const StatsSection: React.FC<StatsSectionProps> = ({ collectionData, collectionId }) => {
+  const { maxSupply = 0, totalMinted = 0 } = collectionData ?? {};
 
   return (
     <section className="stats-container px-4 max-w-screen-xl mx-auto w-full">

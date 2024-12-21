@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useWallet } from "@aptos-labs/wallet-adapter-react";
 import { useEffect } from "react";
+import { toast } from 'react-hot-toast';
 
 import { BannerSection } from "@/pages/Mint/components/BannerSection";
 import { HeroSection } from "@/pages/Mint/components/HeroSection";
@@ -20,18 +21,38 @@ import { NavBar } from "../../components/NavBar";
 import { Collection, COLLECTIONS } from '../../config/collections';
 
 export function Mint() {
-  const { data, isLoading } = useGetCollectionData();
   const queryClient = useQueryClient();
   const { account } = useWallet();
   const [selectedCollection, setSelectedCollection] = useState<Collection>(COLLECTIONS[0]);
+  const { data, isLoading, refetch } = useGetCollectionData(selectedCollection.id);
+
+  const handleCollectionSelect = async (collection: Collection) => {
+    if (!collection) {
+      toast.error("Collection is undefined");
+      return;
+    }
+
+    setSelectedCollection(collection);
+    toast.success(`Selected collection: ${collection.name} (${collection.id})`);
+    
+    const loadingToast = toast.loading('Fetching collection data...');
+    
+    try {
+      await queryClient.invalidateQueries(["app-state", collection.id]);
+      await refetch();
+      toast.dismiss(loadingToast);
+      toast.success('Collection data loaded successfully');
+    } catch (error) {
+      toast.dismiss(loadingToast);
+      toast.error('Failed to load collection data');
+    }
+  };
 
   useEffect(() => {
-    queryClient.invalidateQueries();
-  }, [account, queryClient]);
-
-  const handleCollectionSelect = (collection: Collection) => {
-    setSelectedCollection(collection);
-  };
+    if (account) {
+      queryClient.invalidateQueries(["app-state", selectedCollection.id]);
+    }
+  }, [account, queryClient, selectedCollection.id]);
 
   if (isLoading) {
     return (
@@ -59,8 +80,14 @@ export function Mint() {
       <div style={{ overflow: "hidden" }} className="overflow-hidden">
         <main className="flex flex-col gap-10 md:gap-16 mt-6">
           <ConnectWalletAlert />
-          <HeroSection />
-          <StatsSection />
+          <HeroSection 
+            collectionData={data}
+            collectionId={selectedCollection.id}
+          />
+          <StatsSection 
+            collectionData={data}
+            collectionId={selectedCollection.id}
+          />
           <OurStorySection />
           <HowToMintSection />
           <BannerSection />
@@ -69,7 +96,7 @@ export function Mint() {
         </main>
 
         <footer className="footer-container px-4 pb-6 w-full max-w-screen-xl mx-auto mt-6 md:mt-16 flex items-center justify-between">
-          <p>{data?.collection.collection_name}</p>
+          <p>{data?.collection.collection_name || selectedCollection.name}</p>
           <Socials />
         </footer>
       </div>

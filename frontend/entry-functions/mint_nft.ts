@@ -1,5 +1,4 @@
 import { InputTransactionData } from "@aptos-labs/wallet-adapter-react";
-import { MODULE_ADDRESS } from "@/constants";
 
 export type MintNftArguments = {
   collectionId: string;
@@ -11,7 +10,7 @@ export const mintNFT = (args: MintNftArguments): InputTransactionData => {
   
   return {
     data: {
-      function: `${MODULE_ADDRESS}::launchpad::mint_nft`,
+      function: `${collectionId}::launchpad::mint_nft`,
       typeArguments: [],
       functionArguments: [collectionId, amount],
     }

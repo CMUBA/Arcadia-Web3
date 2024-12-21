@@ -3,10 +3,12 @@ import { HomePage } from "./pages/Home";
 import { Mint } from "@/pages/Mint/index";
 import { CreateCollection } from "@/pages/CreateCollection";
 import { MyCollections } from "@/pages/MyCollections";
+import { Toaster } from 'react-hot-toast';
 
 function App() {
   return (
     <BrowserRouter>
+      <Toaster position="top-right" />
       <Routes>
         <Route path="/" element={<Mint />} />
         <Route path="/home" element={<HomePage />} />

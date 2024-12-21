@@ -26,20 +26,22 @@ import { config } from "@/config";
 // Internal enrty functions
 import { mintNFT } from "@/entry-functions/mint_nft";
 
-interface HeroSectionProps {}
+interface HeroSectionProps {
+  collectionData: any; // Replace 'any' with your actual data type
+  collectionId: string;
+}
 
-export const HeroSection: React.FC<HeroSectionProps> = () => {
-  const { data } = useGetCollectionData();
+export const HeroSection: React.FC<HeroSectionProps> = ({ collectionData, collectionId }) => {
   const queryClient = useQueryClient();
   const { account, signAndSubmitTransaction } = useWallet();
   const [nftCount, setNftCount] = useState(1);
 
-  const { userMintBalance = 0, collection, totalMinted = 0, maxSupply = 1 } = data ?? {};
+  const { userMintBalance = 0, collection, totalMinted = 0, maxSupply = 1 } = collectionData ?? {};
   const mintUpTo = Math.min(userMintBalance, maxSupply - totalMinted);
 
   const mintNft = async (e: FormEvent) => {
     e.preventDefault();
-    if (!account || !data?.isMintActive) return;
+    if (!account || !collectionData?.isMintActive) return;
     if (!collection?.collection_id) return;
 
     const response = await signAndSubmitTransaction(
@@ -70,11 +72,11 @@ export const HeroSection: React.FC<HeroSectionProps> = () => {
             <form onSubmit={mintNft} className="flex flex-col md:flex-row gap-4 w-full md:basis-1/4">
               <Input
                 type="number"
-                disabled={!data?.isMintActive}
+                disabled={!collectionData?.isMintActive}
                 value={nftCount}
                 onChange={(e) => setNftCount(parseInt(e.currentTarget.value, 10))}
               />
-              <Button className="h-16 md:h-auto" type="submit" disabled={!data?.isMintActive}>
+              <Button className="h-16 md:h-auto" type="submit" disabled={!collectionData?.isMintActive}>
                 Mint
               </Button>
             </form>
@@ -107,21 +109,21 @@ export const HeroSection: React.FC<HeroSectionProps> = () => {
         </div>
 
         <div>
-          {data?.startDate && new Date() < data.startDate && (
+          {collectionData?.startDate && new Date() < collectionData.startDate && (
             <div className="flex gap-x-2 justify-between flex-wrap">
               <p className="body-sm-semibold">Minting starts</p>
-              <p className="body-sm">{formatDate(data.startDate)}</p>
+              <p className="body-sm">{formatDate(collectionData.startDate)}</p>
             </div>
           )}
 
-          {data?.endDate && new Date() < data.endDate && !data.isMintInfinite && (
+          {collectionData?.endDate && new Date() < collectionData.endDate && !collectionData.isMintInfinite && (
             <div className="flex gap-x-2 justify-between flex-wrap">
               <p className="body-sm-semibold">Minting ends</p>
-              <p className="body-sm">{formatDate(data.endDate)}</p>
+              <p className="body-sm">{formatDate(collectionData.endDate)}</p>
             </div>
           )}
 
-          {data?.endDate && new Date() > data.endDate && <p className="body-sm-semibold">Minting has ended</p>}
+          {collectionData?.endDate && new Date() > collectionData.endDate && <p className="body-sm-semibold">Minting has ended</p>}
         </div>
       </div>
     </section>
