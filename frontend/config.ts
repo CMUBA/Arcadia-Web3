@@ -21,7 +21,7 @@ export const config: Config = {
     title: "Arcadia Story",
     subTitle: "Collect Your Creations Your Imaginations",
     description:
-      "Design and Play to Get PNTs and Redeem Coupons; Make Your Innovation or Any Words be Valuable. Run Your Own Business On-chain.",
+      "Chiang Mai is a Ancient City with a Rich History and Culture. Some People was Born with different Talent Skill, They are ArcadiaWarriors with Spring, Summer, Autumn and Winter Talent Skill. They have mission to protect the Chiang Mai City. \nWhat is the Secret of the Arcadia? Play to Get PNTs and Redeem Coupons; Make Your Innovation or Any Words be Valuable. Run Your Own Business On-chain.",
     discordLink: "#bottom",
     images: [Placeholder1, Placeholder2, Placeholder3, Placeholder4],
   },
