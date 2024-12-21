@@ -98,6 +98,19 @@ Explore the world of Arcadia, where heroes are born and adventures await.",
 
 ## New Features V3
 1. We can only show one collection now depends on .env config, please add a select box  in market page top bar, to switch between different collections we config in config.ts or other config files. 
+done
+
+## New Features V4
+1. in home page after login, if login user has equipments, show the equipments in the equipment area, replace the placeholder icon.
+2. hero data
+    a. hero name = {name}, load from hero contract(set in initial player data)
+    b. hero level = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, more than 10}, no limit
+    c. hero class = {warrior, mage, archer, priest}, now only warrior supported
+    d. hero race = {human, elf, dwarf, orc}, now only human supported
+    e. hero Talent = {Spring, Summer, Autumn, Winter}
+    f. hero skills = {skill1, skill2, skill3, skill4, skill5, skill6, skill7, skill8, skill9, skill10}, input from hero contract(set from initial player data)
+    g. hero equipments = {weapon, shield, armor, helm, amulet(necklace), glove, ring(left, right), boots}, load from hero contract
+    h. hero Inventory/package = {item1, item2, item3, item4, item5, item6, item7, item8, item9, item10}, load from hero contract.
 
 ## Questions
    有几个问题请教老师，

@@ -1,6 +1,7 @@
 import { useWallet } from "@aptos-labs/wallet-adapter-react";
 import { useEffect, useState } from "react";
 import { NavBar } from "../components/NavBar";
+import { GiHelmet, GiNecklace, GiRing, GiChestArmor, GiShield, GiBoots, GiGloves } from 'react-icons/gi'
 
 interface HeroNFT {
   description: string;
@@ -24,20 +25,20 @@ interface EquipmentSlot {
   name: string;
   image: string | null;
   position: string;
-  symbol: string;
+  icon: React.ReactNode;
 }
 
-const EQUIPMENT_SLOTS: EquipmentSlot[] = [
-  { name: 'Helm', image: null, position: 'top-2', symbol: '🪖' },
-  { name: 'Necklace', image: null, position: 'top-1', symbol: '📿' },
-  { name: 'Cape', image: null, position: 'top-3', symbol: '🧥' },
-  { name: 'Weapon', image: null, position: 'middle-1', symbol: '⚔️' },
-  { name: 'Armor', image: null, position: 'middle-2', symbol: '🛡️' },
-  { name: 'Shield', image: null, position: 'middle-3', symbol: '🛡️' },
-  { name: 'Ring', image: null, position: 'bottom-1', symbol: '💍' },
-  { name: 'Boots', image: null, position: 'bottom-2', symbol: '👢' },
-  { name: 'Gloves', image: null, position: 'bottom-3', symbol: '🧤' },
-];
+const equipment = [
+  { name: 'Helm', image: null, position: 'top-2', icon: <GiHelmet /> },
+  { name: 'Necklace', image: null, position: 'top-1', icon: <GiNecklace /> },
+  { name: 'Ring Left', image: null, position: 'top-3', icon: <GiRing /> },
+  { name: 'Weapon', image: null, position: 'middle-1', icon: <GiRing /> },
+  { name: 'Armor', image: null, position: 'middle-2', icon: <GiChestArmor /> },
+  { name: 'Shield', image: null, position: 'middle-3', icon: <GiShield /> },
+  { name: 'Ring Right', image: null, position: 'bottom-1', icon: <GiRing /> },
+  { name: 'Boots', image: null, position: 'bottom-2', icon: <GiBoots /> },
+  { name: 'Gloves', image: null, position: 'bottom-3', icon: <GiGloves /> },
+]
 
 export function HomePage() {
   const { account, connected } = useWallet();
@@ -175,7 +176,7 @@ export function HomePage() {
             <div className="bg-white rounded-lg shadow p-6">
               <h2 className="text-xl font-bold mb-4">Equipment</h2>
               <div className="grid grid-cols-3 gap-2">
-                {EQUIPMENT_SLOTS.map((slot, index) => (
+                {equipment.map((slot, index) => (
                   <div 
                     key={slot.name}
                     className="relative aspect-square bg-gray-100 rounded border-2 border-gray-300 p-1"
@@ -194,7 +195,7 @@ export function HomePage() {
                         </>
                       ) : (
                         <>
-                          <span className="text-4xl">{slot.symbol}</span>
+                          <span className="text-4xl">{slot.icon}</span>
                           <span className="text-xs text-gray-500 mt-1">{slot.name}</span>
                         </>
                       )}
