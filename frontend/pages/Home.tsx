@@ -1,7 +1,7 @@
 import { useWallet } from "@aptos-labs/wallet-adapter-react";
 import { useEffect, useState } from "react";
 import { NavBar } from "../components/NavBar";
-import { GiHelmet, GiNecklace, GiRing, GiChestArmor, GiShield, GiBoots, GiGloves } from 'react-icons/gi'
+import { GiHelmet, GiNecklace, GiRing, GiBroadsword, GiChestArmor, GiShield, GiBoots, GiGloves } from 'react-icons/gi'
 
 interface HeroNFT {
   description: string;
@@ -32,7 +32,7 @@ const equipment = [
   { name: 'Helm', image: null, position: 'top-2', icon: <GiHelmet /> },
   { name: 'Necklace', image: null, position: 'top-1', icon: <GiNecklace /> },
   { name: 'Ring Left', image: null, position: 'top-3', icon: <GiRing /> },
-  { name: 'Weapon', image: null, position: 'middle-1', icon: <GiRing /> },
+  { name: 'Weapon', image: null, position: 'middle-1', icon: <GiBroadsword /> },
   { name: 'Armor', image: null, position: 'middle-2', icon: <GiChestArmor /> },
   { name: 'Shield', image: null, position: 'middle-3', icon: <GiShield /> },
   { name: 'Ring Right', image: null, position: 'bottom-1', icon: <GiRing /> },
