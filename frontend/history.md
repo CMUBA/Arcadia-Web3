@@ -21,7 +21,7 @@ Requirments for players:
   "external_url": "https://arcadia.cmuba.org/2",
   "attributes": [
     {
-      "type": "basic",
+      "type": "talent",
       "value": "Spring"
     },
     {
@@ -102,7 +102,9 @@ done
 
 ## New Features V4
 1. in home page after login, if login user has equipments, show the equipments in the equipment area, replace the placeholder icon.
-2. hero data
+
+## New Features V5
+1. hero data
     a. hero name = {name}, load from hero contract(set in initial player data)
     b. hero level = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, more than 10}, no limit
     c. hero class = {warrior, mage, archer, priest}, now only warrior supported
@@ -111,6 +113,53 @@ done
     f. hero skills = {skill1, skill2, skill3, skill4, skill5, skill6, skill7, skill8, skill9, skill10}, input from hero contract(set from initial player data)
     g. hero equipments = {weapon, shield, armor, helm, amulet(necklace), glove, ring(left, right), boots}, load from hero contract
     h. hero Inventory/package = {item1, item2, item3, item4, item5, item6, item7, item8, item9, item10}, load from hero contract.
+
+  2. hero data save in three places:
+    a. hero contract onchain, save hero data: ```json { skills, equipments, package }```
+    b. hero nft metadata enum, ```json  
+                          hero level = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, more than 10}, no limit
+                          hero class = {warrior, mage, archer, priest}, now only warrior supported
+                          hero race = {human, elf, dwarf, orc}, now only human supported
+                          hero Talent = {Spring, Summer, Autumn, Winter} 
+                          ```
+
+    c. hero PNTs balance, show in the frontend, load from user's account address
+
+  3. hero contract: https://github.com/aptos-labs/aptos-core/tree/main/aptos-move/move-examples/token_objects/hero, use aptos hero example code, and modify it to fit our game.
+  4. hero nft metadata: ```json {"description": "nft 2 in Arcadia collection",
+  "image": "",
+  "name": "NFT 2",
+  "external_url": "https://arcadia.cmuba.org/2",
+  "attributes": [
+    {
+      "type": "talent",
+      "value": "Spring"
+    },
+    {
+      "type": "race",
+      "value": "human"
+    },
+    {
+      "type": "class",
+      "value": "warrior"
+    },
+    {
+      "type": "level",
+      "value": "1"
+    }
+  ]
+ }```,use this repo's Mint page, and modify it to fit our game.
+  5. hero PNTs mint: https://github.com/aptos-labs/aptos-core/tree/main/aptos-move/move-examples/fungible_asset/fa_coin,use aptos example code, and modify it to fit our game.
+  6. how to get: 
+    a. PNTs balance: https://developer.nodit.io/reference/getnativebalancebyaccount
+    b. hero nft data: https://developer.nodit.io/reference/get-nfts-by-account
+    c. hero contract data: https://developer.nodit.io/reference/get-account-resource
+
+  7. how to interact with hero contract:
+    a. mint hero nft: https://developer.nodit.io/reference/create-nft
+    b. transfer hero nft: https://developer.nodit.io/reference/transfer-nft
+    c. update hero contract: https://developer.nodit.io/reference/update-account-resource
+
 
 ## Questions
    有几个问题请教老师，

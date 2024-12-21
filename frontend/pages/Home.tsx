@@ -2,24 +2,8 @@ import { useWallet } from "@aptos-labs/wallet-adapter-react";
 import { useEffect, useState } from "react";
 import { NavBar } from "../components/NavBar";
 import { GiHelmet, GiNecklace, GiRing, GiBroadsword, GiChestArmor, GiShield, GiBoots, GiGloves } from 'react-icons/gi'
-
-interface HeroNFT {
-  description: string;
-  image: string;
-  name: string;
-  attributes: {
-    type: string;
-    value: string;
-  }[];
-}
-
-interface HeroData {
-  name: string;
-  weapon: string;
-  shield: string;
-  armor: string;
-  helm: string;
-}
+import { HeroNFT, HeroContractData } from '../types/hero';
+import { fetchPNTBalance, fetchHeroNFTs, fetchHeroContractData } from '../api/hero';
 
 interface EquipmentSlot {
   name: string;
@@ -43,7 +27,7 @@ const equipment = [
 export function HomePage() {
   const { account, connected } = useWallet();
   const [heroNFTs, setHeroNFTs] = useState<HeroNFT[]>([]);
-  const [heroData, setHeroData] = useState<HeroData | null>(null);
+  const [heroData, setHeroData] = useState<HeroContractData | null>(null);
   const [pntBalance, setPntBalance] = useState<string>("0");
   const [isLoading, setIsLoading] = useState(true);
 
@@ -52,11 +36,15 @@ export function HomePage() {
       if (connected && account?.address) {
         setIsLoading(true);
         try {
-          await Promise.all([
-            fetchUserNFTs(account.address),
-            fetchHeroData(account.address),
+          const [nfts, contractData, balance] = await Promise.all([
+            fetchHeroNFTs(account.address),
+            fetchHeroContractData(account.address),
             fetchPNTBalance(account.address)
           ]);
+          
+          setHeroNFTs(nfts);
+          setHeroData(contractData);
+          setPntBalance(balance);
         } catch (error) {
           console.error('Error loading data:', error);
         } finally {
@@ -67,53 +55,6 @@ export function HomePage() {
     
     loadData();
   }, [account, connected]);
-
-  async function fetchUserNFTs(address: string) {
-    try {
-      // For testing, let's create a mock NFT
-      const mockNFT: HeroNFT = {
-        description: "Hero NFT",
-        image: "/hero-placeholder.png",
-        name: "Test Hero",
-        attributes: [
-          { type: "basic", value: "Spring" },
-          { type: "race", value: "human" },
-          { type: "class", value: "warrior" },
-          { type: "level", value: "1" }
-        ]
-      };
-      setHeroNFTs([mockNFT]);
-    } catch (error) {
-      console.error('Error fetching NFTs:', error);
-      setHeroNFTs([]);
-    }
-  }
-
-  async function fetchHeroData(address: string) {
-    try {
-      // Mock hero data
-      const mockHeroData: HeroData = {
-        name: "Hero Name",
-        weapon: "Sword",
-        shield: "Shield",
-        armor: "Plate Mail",
-        helm: "Crown"
-      };
-      setHeroData(mockHeroData);
-    } catch (error) {
-      console.error('Error fetching hero data:', error);
-      setHeroData(null);
-    }
-  }
-
-  async function fetchPNTBalance(address: string) {
-    try {
-      setPntBalance("1000");
-    } catch (error) {
-      console.error('Error fetching PNT balance:', error);
-      setPntBalance("0");
-    }
-  }
 
   return (
     <>
@@ -182,7 +123,7 @@ export function HomePage() {
                     className="relative aspect-square bg-gray-100 rounded border-2 border-gray-300 p-1"
                   >
                     <div className="absolute inset-0 flex flex-col items-center justify-center">
-                      {heroData?.[slot.name.toLowerCase() as keyof HeroData] ? (
+                      {heroData?.[slot.name.toLowerCase() as keyof HeroContractData] ? (
                         <>
                           <img 
                             src={`/equipment/${slot.name.toLowerCase()}.png`}
