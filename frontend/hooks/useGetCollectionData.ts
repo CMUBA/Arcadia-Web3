@@ -6,7 +6,6 @@ import { aptosClient } from "@/utils/aptosClient";
 import { getActiveOrNextMintStage } from "@/view-functions/getActiveOrNextMintStage";
 import { getMintStageStartAndEndTime } from "@/view-functions/getMintStageStartAndEndTime";
 import { getUserMintBalance } from "@/view-functions/getUserMintBalance";
-import { COLLECTION_ADDRESS } from "@/constants";
 import { getMintEnabled } from "@/view-functions/getMintEnabled";
 
 export interface Token {
@@ -57,7 +56,7 @@ interface MintData {
   isMintInfinite: boolean;
 }
 
-export function useGetCollectionData(collection_address: string = COLLECTION_ADDRESS) {
+export function useGetCollectionData(collection_address: string) {
   const { account } = useWallet();
 
   return useQuery({
