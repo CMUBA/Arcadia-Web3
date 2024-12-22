@@ -1,7 +1,25 @@
-import { WalletSelector } from "@aptos-labs/wallet-adapter-ant-design";
 import { Link } from "react-router-dom";
+import { Disclosure } from '@headlessui/react';
+import { WalletSelector } from "./WalletSelector";
+import { Collection } from "@/config/collections";
 import { CollectionSelector } from "./CollectionSelector";
-import { Collection } from "../config/collections";
+
+function classNames(...classes: string[]) {
+  return classes.filter(Boolean).join(' ');
+}
+
+// Define navigation items interface
+interface NavigationItem {
+  name: string;
+  href: string;
+  current: boolean;
+}
+
+// Define navigation array with proper typing
+const navigation: NavigationItem[] = [
+  { name: 'Home', href: '/', current: false },
+  { name: 'Market', href: '/mint', current: true },
+];
 
 interface NavBarProps {
   onCollectionSelect?: (collection: Collection) => void;
@@ -9,32 +27,71 @@ interface NavBarProps {
   showCollectionSelector?: boolean;
 }
 
-export function NavBar({ onCollectionSelect, currentCollectionId, showCollectionSelector = false }: NavBarProps) {
+// Change to named export
+export function NavBar({ onCollectionSelect, currentCollectionId, showCollectionSelector = true }: NavBarProps) {
   return (
-    <nav className="flex justify-between items-center p-4 bg-gray-800">
-      <div className="flex items-center gap-6">
-        <div className="flex gap-4">
-          <Link 
-            to="/home" 
-            className="text-white hover:text-gray-300"
-          >
-            Home
-          </Link>
-          <Link 
-            to="/" 
-            className="text-white hover:text-gray-300"
-          >
-            Market
-          </Link>
-        </div>
-        {showCollectionSelector && onCollectionSelect && (
-          <CollectionSelector
-            onSelect={onCollectionSelect}
-            currentCollectionId={currentCollectionId}
-          />
-        )}
-      </div>
-      <WalletSelector />
-    </nav>
+    <Disclosure as="nav" className="bg-black">
+      {() => (
+        <>
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="relative flex h-20 items-center justify-between">
+              {/* Left side - Navigation Links */}
+              <div className="flex flex-1 items-center justify-start">
+                <div className="flex space-x-8">
+                  {navigation.map((item) => (
+                    <Link
+                      key={item.name}
+                      to={item.href}
+                      className={classNames(
+                        item.current
+                          ? 'bg-gray-900 text-white'
+                          : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                        'rounded-md px-4 py-3 text-lg font-medium'
+                      )}
+                      aria-current={item.current ? 'page' : undefined}
+                    >
+                      {item.name}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+
+              {/* Right side - Collection Selector and Wallet */}
+              <div className="flex items-center space-x-4">
+                {showCollectionSelector && onCollectionSelect && (
+                  <CollectionSelector
+                    onCollectionSelect={onCollectionSelect}
+                    currentCollectionId={currentCollectionId}
+                  />
+                )}
+                <WalletSelector />
+              </div>
+            </div>
+          </div>
+
+          {/* Mobile menu */}
+          <Disclosure.Panel className="sm:hidden">
+            <div className="space-y-2 px-4 pb-4 pt-3">
+              {navigation.map((item) => (
+                <Disclosure.Button
+                  key={item.name}
+                  as={Link}
+                  to={item.href}
+                  className={classNames(
+                    item.current
+                      ? 'bg-gray-900 text-white'
+                      : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                    'block rounded-md px-4 py-3 text-lg font-medium w-full text-left'
+                  )}
+                  aria-current={item.current ? 'page' : undefined}
+                >
+                  {item.name}
+                </Disclosure.Button>
+              ))}
+            </div>
+          </Disclosure.Panel>
+        </>
+      )}
+    </Disclosure>
   );
 } 

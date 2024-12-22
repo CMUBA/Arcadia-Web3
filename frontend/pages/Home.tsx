@@ -5,7 +5,7 @@ import { HeroNFT, HeroContractData } from '../types/hero';
 import { fetchPNTBalance, fetchHeroNFTs, fetchHeroContractData } from '../api/hero';
 import { equipment } from '../constants/equipment.tsx';
 
-export function HomePage() {
+export function Home() {
   const { account, connected } = useWallet();
   const [heroNFTs, setHeroNFTs] = useState<HeroNFT[]>([]);
   const [heroData, setHeroData] = useState<HeroContractData | null>(null);
