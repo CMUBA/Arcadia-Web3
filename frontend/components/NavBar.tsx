@@ -1,7 +1,8 @@
-import { WalletSelector } from "@aptos-labs/wallet-adapter-ant-design";
 import { Link } from "react-router-dom";
+import { WalletSelector } from "./WalletSelector";
 import { CollectionSelector } from "./CollectionSelector";
-import { Collection } from "../config/collections";
+import { Collection } from "@/config/collections";
+import { buttonVariants } from "./ui/button";
 
 interface NavBarProps {
   onCollectionSelect?: (collection: Collection) => void;
@@ -9,32 +10,34 @@ interface NavBarProps {
   showCollectionSelector?: boolean;
 }
 
-export function NavBar({ onCollectionSelect, currentCollectionId, showCollectionSelector = false }: NavBarProps) {
+export function NavBar({ onCollectionSelect, currentCollectionId, showCollectionSelector = true }: NavBarProps) {
   return (
-    <nav className="flex justify-between items-center p-4 bg-gray-800">
-      <div className="flex items-center gap-6">
-        <div className="flex gap-4">
-          <Link 
-            to="/home" 
-            className="text-white hover:text-gray-300"
-          >
+    <nav className="border-b">
+      <div className="flex items-center justify-between px-4 py-2 max-w-screen-xl mx-auto w-full flex-wrap">
+        {/* Left side - Navigation Links */}
+        <div className="flex gap-4 items-center">
+          <Link to="/" className={buttonVariants({ variant: "link" })}>
             Home
           </Link>
-          <Link 
-            to="/" 
-            className="text-white hover:text-gray-300"
-          >
+          <Link to="/mint" className={buttonVariants({ variant: "link" })}>
             Market
           </Link>
+          <Link to="/town" className={buttonVariants({ variant: "link" })}>
+            Town
+          </Link>
         </div>
-        {showCollectionSelector && onCollectionSelect && (
-          <CollectionSelector
-            onSelect={onCollectionSelect}
-            currentCollectionId={currentCollectionId}
-          />
-        )}
+
+        {/* Right side - Collection Selector and Wallet */}
+        <div className="flex gap-4 items-center">
+          {showCollectionSelector && onCollectionSelect && (
+            <CollectionSelector
+              onCollectionSelect={onCollectionSelect}
+              currentCollectionId={currentCollectionId}
+            />
+          )}
+          <WalletSelector />
+        </div>
       </div>
-      <WalletSelector />
     </nav>
   );
 } 

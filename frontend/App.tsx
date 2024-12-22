@@ -1,22 +1,20 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { HomePage } from "./pages/Home";
-import { Mint } from "@/pages/Mint/index";
-import { CreateCollection } from "@/pages/CreateCollection";
+import { Mint } from "@/pages/Mint";
 import { MyCollections } from "@/pages/MyCollections";
-import { Toaster } from 'react-hot-toast';
+import { CreateCollection } from "@/pages/CreateCollection";
+import { Home } from "@/pages/Home";
+import { Town } from "@/pages/Town";
 
-function App() {
+export default function App() {
   return (
     <BrowserRouter>
-      <Toaster position="top-right" />
       <Routes>
-        <Route path="/" element={<Mint />} />
-        <Route path="/home" element={<HomePage />} />
-        <Route path="/create-collection" element={<CreateCollection />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/mint" element={<Mint />} />
         <Route path="/my-collections" element={<MyCollections />} />
+        <Route path="/create-collection" element={<CreateCollection />} />
+        <Route path="/town" element={<Town />} />
       </Routes>
     </BrowserRouter>
   );
 }
-
-export default App;
