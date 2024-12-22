@@ -1,33 +1,33 @@
-import { FC } from "react";
-// Internal components
-import { WarningAlert } from "@/components/ui/warning-alert";
-// Internal config
-import { COLLECTION_ADDRESS } from "@/constants";
+import { useWallet } from "@aptos-labs/wallet-adapter-react";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { buttonVariants } from "@/components/ui/button";
+import { Image } from "@/components/ui/image";
+import ExternalLink from "@/assets/icon/external-link.svg";
+import { NETWORK } from "@/constants";
+import { COLLECTIONS } from '@/config/collections';
 
-export const ConnectWalletAlert: FC = () => {
-  if (COLLECTION_ADDRESS) return null;
+export const ConnectWalletAlert = () => {
+  const { account } = useWallet();
+  const defaultCollection = COLLECTIONS[0];
+
+  if (account) return null;
 
   return (
-    <div className="md:flex-row gap-6 px-4 max-w-screen-xl mx-auto w-full">
-      <WarningAlert title="Collection ID not set">
-        This page is placeholder content, to render your collection:
-        <ol className="list-decimal list-inside">
-          <li>
-            Make sure you have created a collection, click the "My Collections" button and verify a collection is
-            created.
-          </li>
-          <li>
-            Fill in the{" "}
-            <code className="relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold">
-              VITE_COLLECTION_ADDRESS
-            </code>{" "}
-            field in
-            <code className="relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold">
-              .env
-            </code>
-          </li>
-        </ol>
-      </WarningAlert>
-    </div>
+    <Alert className="mx-4 max-w-screen-xl w-full self-center">
+      <AlertTitle>Connect your wallet</AlertTitle>
+      <AlertDescription className="flex flex-col gap-2">
+        <p>Connect your wallet to mint NFTs from this collection.</p>
+        <div className="flex gap-x-2">
+          <a
+            className={buttonVariants({ variant: "link", className: "h-auto p-0" })}
+            target="_blank"
+            href={`https://explorer.aptoslabs.com/account/${defaultCollection.id}?network=${NETWORK}`}
+          >
+            View collection on Explorer
+            <Image src={ExternalLink} />
+          </a>
+        </div>
+      </AlertDescription>
+    </Alert>
   );
 };
