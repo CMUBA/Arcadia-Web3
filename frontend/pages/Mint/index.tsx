@@ -42,11 +42,18 @@ export function Mint() {
         queryKey: ["app-state", collection.id]
       });
       await refetch();
+      
+      if (!data) {
+        throw new Error('Failed to load collection data');
+      }
+      
       toast.dismiss(loadingToast);
       toast.success('Collection data loaded successfully');
     } catch (error) {
       toast.dismiss(loadingToast);
-      toast.error('Failed to load collection data');
+      toast.error(error instanceof Error ? error.message : 'Failed to load collection data');
+      
+      setSelectedCollection(COLLECTIONS[0]);
     }
   };
 

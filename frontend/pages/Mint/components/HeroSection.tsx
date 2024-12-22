@@ -36,6 +36,19 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ collectionData }) => {
   const { userMintBalance = 0, collection, totalMinted = 0, maxSupply = 1 } = collectionData ?? {};
   const mintUpTo = Math.min(userMintBalance, maxSupply - totalMinted);
 
+  // Show a message if no collection data is available
+  if (!collectionData || !collection) {
+    return (
+      <section className="hero-container px-4 max-w-screen-xl mx-auto w-full">
+        <Card className="p-6">
+          <p className="text-center text-gray-500">
+            Collection data is not available
+          </p>
+        </Card>
+      </section>
+    );
+  }
+
   const mintNft = async (e: FormEvent) => {
     e.preventDefault();
     if (!account || !collectionData?.isMintActive) return;
