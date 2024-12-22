@@ -38,7 +38,9 @@ export function Mint() {
     const loadingToast = toast.loading('Fetching collection data...');
     
     try {
-      await queryClient.invalidateQueries(["app-state", collection.id]);
+      await queryClient.invalidateQueries({
+        queryKey: ["app-state", collection.id]
+      });
       await refetch();
       toast.dismiss(loadingToast);
       toast.success('Collection data loaded successfully');
@@ -50,7 +52,9 @@ export function Mint() {
 
   useEffect(() => {
     if (account) {
-      queryClient.invalidateQueries(["app-state", selectedCollection.id]);
+      queryClient.invalidateQueries({
+        queryKey: ["app-state", selectedCollection.id]
+      });
     }
   }, [account, queryClient, selectedCollection.id]);
 
@@ -82,11 +86,9 @@ export function Mint() {
           <ConnectWalletAlert />
           <HeroSection 
             collectionData={data}
-            collectionId={selectedCollection.id}
           />
           <StatsSection 
             collectionData={data}
-            collectionId={selectedCollection.id}
           />
           <OurStorySection />
           <HowToMintSection />

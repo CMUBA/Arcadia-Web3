@@ -2,16 +2,18 @@
 import { Card } from "@/components/ui/card";
 // Internal utils
 import { clampNumber } from "@/utils/clampNumber";
-// Internal hooks
-import { useGetCollectionData } from "@/hooks/useGetCollectionData";
+import { useEffect } from "react";
 
 interface StatsSectionProps {
-  collectionData: any; // Replace 'any' with your actual data type
-  collectionId: string;
+  collectionData: any;
 }
 
-export const StatsSection: React.FC<StatsSectionProps> = ({ collectionData, collectionId }) => {
+export const StatsSection: React.FC<StatsSectionProps> = ({ collectionData }) => {
   const { maxSupply = 0, totalMinted = 0 } = collectionData ?? {};
+
+  useEffect(() => {
+    console.log(`Stats being shown for collection: ${collectionData.id}`);
+  }, [collectionData.id]);
 
   return (
     <section className="stats-container px-4 max-w-screen-xl mx-auto w-full">

@@ -1,28 +1,9 @@
 import { useWallet } from "@aptos-labs/wallet-adapter-react";
 import { useEffect, useState } from "react";
 import { NavBar } from "../components/NavBar";
-import { GiHelmet, GiNecklace, GiRing, GiBroadsword, GiChestArmor, GiShield, GiBoots, GiGloves } from 'react-icons/gi'
 import { HeroNFT, HeroContractData } from '../types/hero';
 import { fetchPNTBalance, fetchHeroNFTs, fetchHeroContractData } from '../api/hero';
-
-interface EquipmentSlot {
-  name: string;
-  image: string | null;
-  position: string;
-  icon: React.ReactNode;
-}
-
-const equipment = [
-  { name: 'Helm', image: null, position: 'top-2', icon: <GiHelmet /> },
-  { name: 'Necklace', image: null, position: 'top-1', icon: <GiNecklace /> },
-  { name: 'Ring Left', image: null, position: 'top-3', icon: <GiRing /> },
-  { name: 'Weapon', image: null, position: 'middle-1', icon: <GiBroadsword /> },
-  { name: 'Armor', image: null, position: 'middle-2', icon: <GiChestArmor /> },
-  { name: 'Shield', image: null, position: 'middle-3', icon: <GiShield /> },
-  { name: 'Ring Right', image: null, position: 'bottom-1', icon: <GiRing /> },
-  { name: 'Boots', image: null, position: 'bottom-2', icon: <GiBoots /> },
-  { name: 'Gloves', image: null, position: 'bottom-3', icon: <GiGloves /> },
-]
+import { equipment } from '../constants/equipment.tsx';
 
 export function HomePage() {
   const { account, connected } = useWallet();
@@ -56,10 +37,10 @@ export function HomePage() {
     loadData();
   }, [account, connected]);
 
-  return (
-    <>
-      <NavBar showCollectionSelector={false} />
-      {!connected ? (
+  if (!connected) {
+    return (
+      <>
+        <NavBar showCollectionSelector={false} />
         <div className="relative h-screen w-full">
           {/* Background Video */}
           <video 
@@ -79,96 +60,116 @@ export function HomePage() {
             </p>
           </div>
         </div>
-      ) : (
-        <div className="container mx-auto px-4 py-8">
-          {/* Hero Stats Section */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-            <div className="bg-white rounded-lg shadow p-6">
-              <h2 className="text-xl font-bold mb-4">Hero Stats</h2>
-              <div className="space-y-2">
-                {heroNFTs[0]?.attributes?.map((attr, index) => (
-                  <div key={`attr-${index}`} className="flex justify-between">
-                    <span className="capitalize">{attr.type}:</span>
-                    <span className="font-bold">{attr.value}</span>
-                  </div>
-                )) || (
-                  <div className="text-gray-400">No attributes available</div>
-                )}
-              </div>
-            </div>
+      </>
+    );
+  }
 
-            {/* Character Preview */}
-            <div className="bg-white rounded-lg shadow p-6">
-              <h2 className="text-xl font-bold mb-4">Character Preview</h2>
-              <div className="aspect-square bg-gray-200 rounded-lg flex items-center justify-center">
-                {heroNFTs[0]?.image ? (
-                  <img 
-                    src={heroNFTs[0].image}
-                    alt="Character Preview"
-                    className="w-full h-full object-cover rounded-lg"
-                  />
-                ) : (
-                  <div className="text-gray-400">No Image Available</div>
-                )}
-              </div>
-            </div>
-
-            {/* Equipment */}
-            <div className="bg-white rounded-lg shadow p-6">
-              <h2 className="text-xl font-bold mb-4">Equipment</h2>
-              <div className="grid grid-cols-3 gap-2">
-                {equipment.map((slot, index) => (
-                  <div 
-                    key={slot.name}
-                    className="relative aspect-square bg-gray-100 rounded border-2 border-gray-300 p-1"
-                  >
-                    <div className="absolute inset-0 flex flex-col items-center justify-center">
-                      {heroData?.[slot.name.toLowerCase() as keyof HeroContractData] ? (
-                        <>
-                          <img 
-                            src={`/equipment/${slot.name.toLowerCase()}.png`}
-                            alt={slot.name}
-                            className="w-full h-full object-contain p-1"
-                          />
-                          <span className="absolute bottom-0 left-0 right-0 text-center text-xs bg-black bg-opacity-50 text-white p-1">
-                            {slot.name}
-                          </span>
-                        </>
-                      ) : (
-                        <>
-                          <span className="text-4xl">{slot.icon}</span>
-                          <span className="text-xs text-gray-500 mt-1">{slot.name}</span>
-                        </>
-                      )}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
+  if (isLoading) {
+    return (
+      <>
+        <NavBar showCollectionSelector={false} />
+        <div className="container mx-auto px-4 py-8 flex items-center justify-center h-screen">
+          <div className="text-center">
+            <h2 className="text-2xl font-bold mb-4">Loading Hero Data...</h2>
+            {/* You can add a spinner here if you want */}
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900 mx-auto"></div>
           </div>
+        </div>
+      </>
+    );
+  }
 
-          {/* PNT Balance */}
-          <div className="bg-white rounded-lg shadow p-6 mb-8">
-            <div className="flex justify-between items-center">
-              <h2 className="text-xl font-bold">PNT Balance</h2>
-              <span className="text-2xl font-bold">{pntBalance} PNT</span>
-            </div>
-          </div>
-
-          {/* Inventory Section */}
+  return (
+    <>
+      <NavBar showCollectionSelector={false} />
+      <div className="container mx-auto px-4 py-8">
+        {/* Hero Stats Section */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           <div className="bg-white rounded-lg shadow p-6">
-            <h2 className="text-xl font-bold mb-4">Inventory</h2>
-            <div className="grid grid-cols-6 md:grid-cols-12 gap-2">
-              {[...Array(48)].map((_, index) => (
-                <div 
-                  key={`inventory-${index}`}
-                  className="aspect-square bg-gray-100 rounded border-2 border-gray-300"
+            <h2 className="text-xl font-bold mb-4">Hero Stats</h2>
+            <div className="space-y-2">
+              {heroNFTs[0]?.attributes?.map((attr, index) => (
+                <div key={`attr-${index}`} className="flex justify-between">
+                  <span className="capitalize">{attr.type}:</span>
+                  <span className="font-bold">{attr.value}</span>
+                </div>
+              )) || (
+                <div className="text-gray-400">No attributes available</div>
+              )}
+            </div>
+          </div>
+
+          {/* Character Preview */}
+          <div className="bg-white rounded-lg shadow p-6">
+            <h2 className="text-xl font-bold mb-4">Character Preview</h2>
+            <div className="aspect-square bg-gray-200 rounded-lg flex items-center justify-center">
+              {heroNFTs[0]?.image ? (
+                <img 
+                  src={heroNFTs[0].image}
+                  alt="Character Preview"
+                  className="w-full h-full object-cover rounded-lg"
                 />
+              ) : (
+                <div className="text-gray-400">No Image Available</div>
+              )}
+            </div>
+          </div>
+
+          {/* Equipment */}
+          <div className="bg-white rounded-lg shadow p-6">
+            <h2 className="text-xl font-bold mb-4">Equipment</h2>
+            <div className="grid grid-cols-3 gap-2">
+              {equipment.map(slot => (
+                <div 
+                  key={slot.name}
+                  className="relative aspect-square bg-gray-100 rounded border-2 border-gray-300 p-1"
+                >
+                  <div className="absolute inset-0 flex flex-col items-center justify-center">
+                    {heroData?.[slot.name.toLowerCase() as keyof HeroContractData] ? (
+                      <>
+                        <img 
+                          src={`/equipment/${slot.name.toLowerCase()}.png`}
+                          alt={slot.name}
+                          className="w-full h-full object-contain p-1"
+                        />
+                        <span className="absolute bottom-0 left-0 right-0 text-center text-xs bg-black bg-opacity-50 text-white p-1">
+                          {slot.name}
+                        </span>
+                      </>
+                    ) : (
+                      <>
+                        <span className="text-4xl">{slot.icon}</span>
+                        <span className="text-xs text-gray-500 mt-1">{slot.name}</span>
+                      </>
+                    )}
+                  </div>
+                </div>
               ))}
             </div>
           </div>
         </div>
-      )}
+
+        {/* PNT Balance */}
+        <div className="bg-white rounded-lg shadow p-6 mb-8">
+          <div className="flex justify-between items-center">
+            <h2 className="text-xl font-bold">PNT Balance</h2>
+            <span className="text-2xl font-bold">{pntBalance} PNT</span>
+          </div>
+        </div>
+
+        {/* Inventory Section */}
+        <div className="bg-white rounded-lg shadow p-6">
+          <h2 className="text-xl font-bold mb-4">Inventory</h2>
+          <div className="grid grid-cols-6 md:grid-cols-12 gap-2">
+            {[...Array(48)].map((_, index) => (
+              <div 
+                key={`inventory-${index}`}
+                className="aspect-square bg-gray-100 rounded border-2 border-gray-300"
+              />
+            ))}
+          </div>
+        </div>
+      </div>
     </>
   );
 } 

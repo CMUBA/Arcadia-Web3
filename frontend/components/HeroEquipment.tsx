@@ -1,5 +1,5 @@
 import { Equipment } from '../types/hero';
-import { equipment } from '../constants/equipment';
+import { equipment, EquipmentSlot } from '../constants/equipment.tsx';
 
 interface HeroEquipmentProps {
   equipments: {
@@ -12,7 +12,7 @@ export function HeroEquipment({ equipments }: HeroEquipmentProps) {
     <div className="bg-white rounded-lg shadow p-6">
       <h2 className="text-xl font-bold mb-4">Equipment</h2>
       <div className="grid grid-cols-3 gap-2">
-        {equipment.map((slot) => (
+        {equipment.map((slot: EquipmentSlot) => (
           <div 
             key={slot.name}
             className="relative aspect-square bg-gray-100 rounded border-2 border-gray-300 p-1"

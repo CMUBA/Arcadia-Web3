@@ -10,8 +10,6 @@ import { truncateAddress } from "@/utils/truncateAddress";
 import { clampNumber } from "@/utils/clampNumber";
 import { formatDate } from "@/utils/formatDate";
 import { aptosClient } from "@/utils/aptosClient";
-// Internal hooks
-import { useGetCollectionData } from "@/hooks/useGetCollectionData";
 // Internal components
 import { Image } from "@/components/ui/image";
 import { Card, CardContent } from "@/components/ui/card";
@@ -27,11 +25,10 @@ import { config } from "@/config";
 import { mintNFT } from "@/entry-functions/mint_nft";
 
 interface HeroSectionProps {
-  collectionData: any; // Replace 'any' with your actual data type
-  collectionId: string;
+  collectionData: any;
 }
 
-export const HeroSection: React.FC<HeroSectionProps> = ({ collectionData, collectionId }) => {
+export const HeroSection: React.FC<HeroSectionProps> = ({ collectionData }) => {
   const queryClient = useQueryClient();
   const { account, signAndSubmitTransaction } = useWallet();
   const [nftCount, setNftCount] = useState(1);

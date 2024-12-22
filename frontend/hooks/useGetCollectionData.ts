@@ -149,7 +149,11 @@ export function useGetCollectionData(collection_address: string = COLLECTION_ADD
         } satisfies MintData;
       } catch (error) {
         console.error('Error fetching collection data:', error);
-        toast.error(`Error fetching collection: ${error.message}`);
+        if (error instanceof Error) {
+          toast.error(`Error fetching collection: ${error.message}`);
+        } else {
+          toast.error('An unknown error occurred');
+        }
         return null;
       }
     },
