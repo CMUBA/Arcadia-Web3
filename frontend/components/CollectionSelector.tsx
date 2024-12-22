@@ -1,11 +1,11 @@
 import { Collection, COLLECTIONS } from '../config/collections';
 
 interface CollectionSelectorProps {
-  onSelect: (collection: Collection) => void;
+  onCollectionSelect: (collection: Collection) => void;
   currentCollectionId?: string;
 }
 
-export function CollectionSelector({ onSelect, currentCollectionId }: CollectionSelectorProps) {
+export function CollectionSelector({ onCollectionSelect, currentCollectionId }: CollectionSelectorProps) {
   return (
     <select
       className="bg-gray-700 text-white rounded px-3 py-1 outline-none focus:ring-2 focus:ring-blue-500"
@@ -13,7 +13,7 @@ export function CollectionSelector({ onSelect, currentCollectionId }: Collection
       onChange={(e) => {
         const collection = COLLECTIONS.find(c => c.id === e.target.value);
         if (collection) {
-          onSelect(collection);
+          onCollectionSelect(collection);
         }
       }}
     >

@@ -2,8 +2,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { GetCollectionDataResponse } from "@aptos-labs/ts-sdk";
 // Internal components
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { LaunchpadHeader } from "@/components/LaunchpadHeader";
-import { Image } from "@/components/ui/image";
 import { Header } from "@/components/Header";
 import { NavBar } from "@/components/NavBar";
 // Internal hooks
@@ -44,9 +42,9 @@ export function MyCollections() {
                   <TableRow key={collection?.collection_id}>
                     <TableCell className="font-medium">
                       <div className="flex items-center gap-2 flex-wrap">
-                        <Image
+                        <img
                           src={collection?.cdn_asset_uris?.cdn_image_uri ?? ""}
-                          rounded
+                          alt=""
                           className="w-10 h-10 bg-gray-100 shrink-0"
                         />
                         <span>{collection?.collection_name}</span>
