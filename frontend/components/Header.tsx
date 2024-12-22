@@ -1,7 +1,6 @@
-import { FC } from "react";
-import { useWallet } from "@aptos-labs/wallet-adapter-react";
+import { useGetCollectionData } from "@/hooks/useGetCollectionData";
+import { useMemo } from "react";
 import { Link } from "react-router-dom";
-import { buttonVariants } from "@/components/ui/button";
 import { WalletSelector } from "./WalletSelector";
 import { IS_DEV } from "@/constants";
 import { buttonVariants } from "@/components/ui/button";
@@ -17,6 +16,9 @@ export function Header() {
 
   return (
     <header className="header-container px-4 py-6 w-full max-w-screen-xl mx-auto flex items-center justify-between">
+      <h1 className="text-xl font-bold">
+        <Link to="/">{title}</Link>
+      </h1>
       <div className="flex gap-2 items-center flex-wrap">
         {IS_DEV && (
           <>
