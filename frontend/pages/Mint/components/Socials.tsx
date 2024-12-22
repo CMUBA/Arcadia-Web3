@@ -5,13 +5,13 @@ import { Image } from "@/components/ui/image";
 // Internal config
 import { config } from "@/config";
 // Internal assets
-import Twitter from "@/assets/icons/twitter.svg";
-import Link from "@/assets/icons/link.svg";
-import Discord from "@/assets/icons/discord.svg";
-import GitHub from "@/assets/icons/github.svg";
-import Notion from "@/assets/icons/notion.svg";
-import Telegram from "@/assets/icons/telegram.svg";
-import Line from "@/assets/icons/line.svg";
+import Twitter from "@/assets/icon/twitter.svg";
+import Link from "@/assets/icon/link.svg";
+import Discord from "@/assets/icon/discord.svg";
+import GitHub from "@/assets/icon/github.svg";
+import Notion from "@/assets/icon/notion.svg";
+import Telegram from "@/assets/icon/telegram.svg";
+import Line from "@/assets/icon/line.svg";
 
 export const Socials: FC = () => {
   if (!config.socials) return null;

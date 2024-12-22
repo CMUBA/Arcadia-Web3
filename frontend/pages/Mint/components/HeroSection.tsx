@@ -2,8 +2,8 @@ import { FC, FormEvent, useState } from "react";
 import { useWallet } from "@aptos-labs/wallet-adapter-react";
 import { useQueryClient } from "@tanstack/react-query";
 // Internal assets
-import Copy from "@/assets/icons/copy.svg";
-import ExternalLink from "@/assets/icons/external-link.svg";
+import Copy from "@/assets/icon/copy.svg";
+import ExternalLink from "@/assets/icon/external-link.svg";
 import Placeholder1 from "@/assets/placeholders/hero-1.png";
 // Internal utils
 import { truncateAddress } from "@/utils/truncateAddress";

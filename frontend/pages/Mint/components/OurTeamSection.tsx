@@ -4,8 +4,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Image } from "@/components/ui/image";
 import { ConfigTeamMember, config } from "@/config";
 // Internal assets
-import Twitter from "@/assets/icons/twitter.svg";
-import Discord from "@/assets/icons/discord.svg";
+import Twitter from "@/assets/icon/twitter.svg";
+import Discord from "@/assets/icon/discord.svg";
 
 interface OurTeamSectionProps {}
 
