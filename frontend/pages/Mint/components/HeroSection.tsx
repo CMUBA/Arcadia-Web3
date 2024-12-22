@@ -64,11 +64,24 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ collectionData }) => {
 
   return (
     <section className="hero-container flex flex-col md:flex-row gap-6 px-4 max-w-screen-xl mx-auto w-full">
-      <Image
-        src={collection?.cdn_asset_uris.cdn_image_uri ?? collection?.cdn_asset_uris.cdn_animation_uri ?? Placeholder1}
-        rounded
-        className="w-1/2 md:basis-2/5 aspect-square object-cover self-center"
-      />
+      <a
+        href={`https://explorer.aptoslabs.com/account/${collection?.collection_id}?network=${NETWORK}`}
+        target="_blank"
+        className="w-1/2 md:basis-2/5 relative group"
+      >
+        <Image
+          src={collection?.cdn_asset_uris.cdn_image_uri ?? collection?.cdn_asset_uris.cdn_animation_uri ?? Placeholder1}
+          rounded
+          className="aspect-square object-cover self-center transition-opacity group-hover:opacity-90"
+        />
+        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/50 rounded">
+          <span className="text-white flex items-center gap-2">
+            View on Explorer
+            <Image src={ExternalLink} className="invert" />
+          </span>
+        </div>
+      </a>
+
       <div className="basis-3/5 flex flex-col gap-4">
         <h1 className="title-md">{collection?.collection_name ?? config.defaultCollection?.name}</h1>
         <Socials />

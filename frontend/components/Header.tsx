@@ -1,24 +1,21 @@
-import { useGetCollectionData } from "@/hooks/useGetCollectionData";
-import { useMemo } from "react";
+import { FC } from "react";
+import { useWallet } from "@aptos-labs/wallet-adapter-react";
 import { Link } from "react-router-dom";
+import { buttonVariants } from "@/components/ui/button";
 import { WalletSelector } from "./WalletSelector";
 import { IS_DEV } from "@/constants";
-import { buttonVariants } from "@/components/ui/button";
-import { config } from "@/config";
 
-export function Header() {
-  const { data } = useGetCollectionData();
+interface HeaderProps {
+  showCollectionSelector?: boolean;
+}
 
-  const title = useMemo(() => {
-    return data?.collection.collection_name ?? config.defaultCollection?.name ?? "NFT Collection Launchpad";
-  }, [data?.collection]);
+export const Header: FC<HeaderProps> = ({ showCollectionSelector = true }) => {
+  const { account } = useWallet();
+
+  if (!account) return null;
 
   return (
-    <div className="flex items-center justify-between px-4 py-2 max-w-screen-xl mx-auto w-full flex-wrap">
-      <h1 className="display">
-        <Link to="/">{title}</Link>
-      </h1>
-
+    <header className="header-container px-4 py-6 w-full max-w-screen-xl mx-auto flex items-center justify-between">
       <div className="flex gap-2 items-center flex-wrap">
         {IS_DEV && (
           <>
@@ -35,6 +32,6 @@ export function Header() {
         )}
         <WalletSelector />
       </div>
-    </div>
+    </header>
   );
-}
+};

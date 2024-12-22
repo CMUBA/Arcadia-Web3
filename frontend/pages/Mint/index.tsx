@@ -87,7 +87,7 @@ export function Mint() {
         currentCollectionId={selectedCollection.id}
         showCollectionSelector={true}
       />
-      <Header />
+      <Header showCollectionSelector={true} />
       <div style={{ overflow: "hidden" }} className="overflow-hidden">
         <main className="flex flex-col gap-10 md:gap-16 mt-6">
           <ConnectWalletAlert />
