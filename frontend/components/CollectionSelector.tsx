@@ -1,4 +1,4 @@
-import { Collection, COLLECTIONS } from '../config/collections';
+import { Collection, COLLECTIONS } from '@/config/collections';
 
 interface CollectionSelectorProps {
   onCollectionSelect: (collection: Collection) => void;

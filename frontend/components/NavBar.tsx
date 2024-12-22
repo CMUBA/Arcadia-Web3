@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { Disclosure } from '@headlessui/react';
 import { WalletSelector } from "./WalletSelector";
-import { Collection } from "@/types/collection";
+import { Collection } from "@/config/collections";
 import { CollectionSelector } from "./CollectionSelector";
 
 function classNames(...classes: string[]) {
@@ -31,7 +31,7 @@ interface NavBarProps {
 export function NavBar({ onCollectionSelect, currentCollectionId, showCollectionSelector = true }: NavBarProps) {
   return (
     <Disclosure as="nav" className="bg-black">
-      {({ open }) => (
+      {() => (
         <>
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="relative flex h-20 items-center justify-between">
