@@ -22,9 +22,6 @@ export function NavBar({ onCollectionSelect, currentCollectionId, showCollection
           <Link to="/mint" className={buttonVariants({ variant: "link" })}>
             Market
           </Link>
-          <Link to="/town" className={buttonVariants({ variant: "link" })}>
-            Town
-          </Link>
         </div>
 
         {/* Right side - Collection Selector and Wallet */}
