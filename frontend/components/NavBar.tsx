@@ -27,7 +27,6 @@ interface NavBarProps {
   showCollectionSelector?: boolean;
 }
 
-// Change to named export
 export function NavBar({ onCollectionSelect, currentCollectionId, showCollectionSelector = true }: NavBarProps) {
   return (
     <Disclosure as="nav" className="bg-black">
@@ -35,9 +34,9 @@ export function NavBar({ onCollectionSelect, currentCollectionId, showCollection
         <>
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="relative flex h-20 items-center justify-between">
-              {/* Left side - Navigation Links */}
+              {/* Left side - Navigation Links and Collection Selector */}
               <div className="flex flex-1 items-center justify-start">
-                <div className="flex space-x-8">
+                <div className="flex items-center space-x-8">
                   {navigation.map((item) => (
                     <Link
                       key={item.name}
@@ -53,17 +52,18 @@ export function NavBar({ onCollectionSelect, currentCollectionId, showCollection
                       {item.name}
                     </Link>
                   ))}
+                  {/* Collection Selector moved here */}
+                  {showCollectionSelector && onCollectionSelect && (
+                    <CollectionSelector
+                      onCollectionSelect={onCollectionSelect}
+                      currentCollectionId={currentCollectionId}
+                    />
+                  )}
                 </div>
               </div>
 
-              {/* Right side - Collection Selector and Wallet */}
-              <div className="flex items-center space-x-4">
-                {showCollectionSelector && onCollectionSelect && (
-                  <CollectionSelector
-                    onCollectionSelect={onCollectionSelect}
-                    currentCollectionId={currentCollectionId}
-                  />
-                )}
+              {/* Right side - Wallet */}
+              <div className="flex items-center">
                 <WalletSelector />
               </div>
             </div>
