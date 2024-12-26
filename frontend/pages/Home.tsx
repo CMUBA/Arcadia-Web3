@@ -4,12 +4,13 @@ import { NavBar } from "../components/NavBar";
 import { HeroNFT, HeroContractData } from '../types/hero';
 import { fetchPNTBalance, fetchHeroNFTs, fetchHeroContractData } from '../api/hero';
 import { equipment } from '../constants/equipment.tsx';
+import { useGetPNTBalance } from '@/hooks/useGetPNTBalance';
 
 export function Home() {
   const { account, connected } = useWallet();
   const [heroNFTs, setHeroNFTs] = useState<HeroNFT[]>([]);
   const [heroData, setHeroData] = useState<HeroContractData | null>(null);
-  const [pntBalance, setPntBalance] = useState<string>("0");
+  const { data: pntData } = useGetPNTBalance();
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -153,7 +154,14 @@ export function Home() {
         <div className="bg-white rounded-lg shadow p-6 mb-8">
           <div className="flex justify-between items-center">
             <h2 className="text-xl font-bold">PNT Balance</h2>
-            <span className="text-2xl font-bold">{pntBalance} PNT</span>
+            <div className="flex flex-col items-end">
+              <span className="text-2xl font-bold">
+                {pntData ? `${pntData.balance.toLocaleString()} ${pntData.symbol}` : '0 PNT'}
+              </span>
+              <span className="text-sm text-gray-500">
+                {account?.address && `Account: ${account.address.slice(0, 6)}...${account.address.slice(-4)}`}
+              </span>
+            </div>
           </div>
         </div>
 
