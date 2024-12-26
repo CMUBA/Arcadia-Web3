@@ -17,8 +17,8 @@ export const COLLECTIONS: Collection[] = [
     description: 'Special heroes collection',
   },
   {
-    id: 'collection_3',
-    name: 'Weapons Collection',
-    description: 'Legendary weapons collection',
+    id: '0x692ecd0c79e81c597d70932a80bea912942519191ff72874413e34ca96d8b6f3',
+    name: 'Infinity Garden Collection',
+    description: 'Arcadia Infinity Garden Collection',
   },
 ]; 
