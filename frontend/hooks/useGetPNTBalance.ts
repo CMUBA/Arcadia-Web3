@@ -2,7 +2,12 @@ import { useWallet } from "@aptos-labs/wallet-adapter-react";
 import { useQuery } from "@tanstack/react-query";
 import { aptosClient } from "@/utils/aptosClient";
 
-const PNT_ADDRESS = "0xee3ff47098abfc3640a626732dac235dfdd807b563d806ee8c20460f22d1df85";
+// Replace hardcoded address with environment variable
+const PNT_ADDRESS = import.meta.env.VITE_PNT_ADDRESS;
+
+if (!PNT_ADDRESS) {
+  console.warn('VITE_PNT_ADDRESS is not set in environment variables');
+}
 
 interface PNTQueryResult {
   fungible_asset_metadata: Array<{
