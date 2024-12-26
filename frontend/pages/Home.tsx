@@ -1,156 +1,125 @@
 import { useWallet } from "@aptos-labs/wallet-adapter-react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { NavBar } from "../components/NavBar";
 import { HeroNFT, HeroContractData } from '../types/hero';
-import { fetchPNTBalance, fetchHeroNFTs, fetchHeroContractData } from '../api/hero';
-import { equipment } from '../constants/equipment.tsx';
+import { Collection, COLLECTIONS } from '@/config/collections';
 import { useGetPNTBalance } from '@/hooks/useGetPNTBalance';
+import { useGetAccountTokens } from '@/hooks/useGetAccountTokens';
+
+// 定义装备槽位布局
+const EQUIPMENT_SLOTS = {
+  row1: ['Helmet'],
+  row2: ['Necklace'],
+  row3: ['Ring', 'Armor', 'Gloves'],
+  row4: ['Weapon', 'Shield'],
+  row5: ['Boots']
+};
 
 export function Home() {
   const { account, connected } = useWallet();
+  const { data: pntData } = useGetPNTBalance();
+  const { data: tokenData } = useGetAccountTokens();
+  const [selectedCollection, setSelectedCollection] = useState<Collection>(COLLECTIONS[0]);
   const [heroNFTs, setHeroNFTs] = useState<HeroNFT[]>([]);
   const [heroData, setHeroData] = useState<HeroContractData | null>(null);
-  const { data: pntData } = useGetPNTBalance();
-  const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    async function loadData() {
-      if (connected && account?.address) {
-        setIsLoading(true);
-        try {
-          const [nfts, contractData, balance] = await Promise.all([
-            fetchHeroNFTs(account.address),
-            fetchHeroContractData(account.address),
-            fetchPNTBalance(account.address)
-          ]);
-          
-          setHeroNFTs(nfts);
-          setHeroData(contractData);
-          setPntBalance(balance);
-        } catch (error) {
-          console.error('Error loading data:', error);
-        } finally {
-          setIsLoading(false);
-        }
-      }
-    }
-    
-    loadData();
-  }, [account, connected]);
+  // 保留原有的 collection select 处理函数
+  const handleCollectionSelect = (collection: Collection) => {
+    setSelectedCollection(collection);
+  };
 
-  if (!connected) {
-    return (
-      <>
-        <NavBar showCollectionSelector={false} />
-        <div className="relative h-screen w-full">
-          {/* Background Video */}
-          <video 
-            autoPlay 
-            loop 
-            muted 
-            className="absolute inset-0 w-full h-full object-cover"
-          >
-            <source src="/background.mp4" type="video/mp4" />
-          </video>
-          
-          {/* Welcome Text */}
-          <div className="absolute inset-0 flex flex-col items-center justify-center text-white bg-black bg-opacity-50">
-            <h1 className="text-5xl font-bold mb-4">Welcome to Arcadia</h1>
-            <p className="text-xl">
-              Explore the world of Arcadia, where heroes are born and adventures await.
-            </p>
-          </div>
-        </div>
-      </>
+  // Filter NFTs by selected collection
+  const selectedNFTs = useMemo(() => {
+    if (!tokenData?.token_activities_v2) return [];
+    return tokenData.token_activities_v2.filter(
+      activity => activity.current_token_data.collection_id === selectedCollection.id
     );
-  }
+  }, [tokenData, selectedCollection.id]);
 
-  if (isLoading) {
-    return (
-      <>
-        <NavBar showCollectionSelector={false} />
-        <div className="container mx-auto px-4 py-8 flex items-center justify-center h-screen">
-          <div className="text-center">
-            <h2 className="text-2xl font-bold mb-4">Loading Hero Data...</h2>
-            {/* You can add a spinner here if you want */}
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900 mx-auto"></div>
-          </div>
-        </div>
-      </>
-    );
-  }
+  // Get current NFT data for display
+  const currentNFT = useMemo(() => {
+    return selectedNFTs[0]?.current_token_data;
+  }, [selectedNFTs]);
+
+  const renderEquipmentSlot = (slot: string) => (
+    <div 
+      key={slot}
+      className="aspect-square bg-gray-100 rounded border-2 border-gray-300 flex flex-col items-center justify-center p-2"
+    >
+      <div className="w-6 h-6 bg-gray-200 rounded-full mb-1" />
+      <span className="text-xs text-gray-500 text-center">{slot}</span>
+    </div>
+  );
 
   return (
     <>
-      <NavBar showCollectionSelector={false} />
+      <NavBar 
+        onCollectionSelect={handleCollectionSelect}
+        currentCollectionId={selectedCollection.id}
+        showCollectionSelector={true}
+      />
       <div className="container mx-auto px-4 py-8">
-        {/* Hero Stats Section */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        {/* Main Character Section */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+          {/* Hero Stats Section */}
           <div className="bg-white rounded-lg shadow p-6">
             <h2 className="text-xl font-bold mb-4">Hero Stats</h2>
-            <div className="space-y-2">
-              {heroNFTs[0]?.attributes?.map((attr, index) => (
-                <div key={`attr-${index}`} className="flex justify-between">
-                  <span className="capitalize">{attr.type}:</span>
-                  <span className="font-bold">{attr.value}</span>
-                </div>
-              )) || (
-                <div className="text-gray-400">No attributes available</div>
-              )}
-            </div>
+            {currentNFT && (
+              <div className="space-y-4">
+                <h3 className="font-bold text-lg">{currentNFT.token_name}</h3>
+                <p className="text-gray-600">{currentNFT.description}</p>
+                {Object.entries(currentNFT.token_properties).map(([key, value]) => (
+                  <div key={key} className="flex justify-between">
+                    <span className="font-semibold">{key}:</span>
+                    <span>{value}</span>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
 
-          {/* Character Preview */}
+          {/* Character Preview Section */}
           <div className="bg-white rounded-lg shadow p-6">
             <h2 className="text-xl font-bold mb-4">Character Preview</h2>
-            <div className="aspect-square bg-gray-200 rounded-lg flex items-center justify-center">
-              {heroNFTs[0]?.image ? (
-                <img 
-                  src={heroNFTs[0].image}
-                  alt="Character Preview"
-                  className="w-full h-full object-cover rounded-lg"
-                />
-              ) : (
-                <div className="text-gray-400">No Image Available</div>
-              )}
-            </div>
+            {currentNFT?.token_uri ? (
+              <img 
+                src={currentNFT.token_uri} 
+                alt={currentNFT.token_name}
+                className="w-full h-auto rounded-lg"
+              />
+            ) : (
+              <div className="aspect-square bg-gray-100 rounded-lg flex items-center justify-center">
+                <span className="text-gray-400">No preview available</span>
+              </div>
+            )}
           </div>
 
-          {/* Equipment */}
+          {/* Equipment Grid Section */}
           <div className="bg-white rounded-lg shadow p-6">
             <h2 className="text-xl font-bold mb-4">Equipment</h2>
-            <div className="grid grid-cols-3 gap-2">
-              {equipment.map(slot => (
-                <div 
-                  key={slot.name}
-                  className="relative aspect-square bg-gray-100 rounded border-2 border-gray-300 p-1"
-                >
-                  <div className="absolute inset-0 flex flex-col items-center justify-center">
-                    {heroData?.[slot.name.toLowerCase() as keyof HeroContractData] ? (
-                      <>
-                        <img 
-                          src={`/equipment/${slot.name.toLowerCase()}.png`}
-                          alt={slot.name}
-                          className="w-full h-full object-contain p-1"
-                        />
-                        <span className="absolute bottom-0 left-0 right-0 text-center text-xs bg-black bg-opacity-50 text-white p-1">
-                          {slot.name}
-                        </span>
-                      </>
-                    ) : (
-                      <>
-                        <span className="text-4xl">{slot.icon}</span>
-                        <span className="text-xs text-gray-500 mt-1">{slot.name}</span>
-                      </>
-                    )}
-                  </div>
-                </div>
-              ))}
+            <div className="grid grid-cols-5 gap-2 h-full">
+              {/* Row 1 - Helmet */}
+              <div className="col-start-3">{renderEquipmentSlot('Helmet')}</div>
+              
+              {/* Row 2 - Necklace */}
+              <div className="col-start-3 row-start-2">{renderEquipmentSlot('Necklace')}</div>
+              
+              {/* Row 3 - Ring, Armor, Gloves */}
+              <div className="col-start-2 row-start-3">{renderEquipmentSlot('Ring')}</div>
+              <div className="col-start-3 row-start-3">{renderEquipmentSlot('Armor')}</div>
+              <div className="col-start-4 row-start-3">{renderEquipmentSlot('Gloves')}</div>
+              
+              {/* Row 4 - Weapon, Shield */}
+              <div className="col-start-2 row-start-4">{renderEquipmentSlot('Weapon')}</div>
+              <div className="col-start-4 row-start-4">{renderEquipmentSlot('Shield')}</div>
+              
+              {/* Row 5 - Boots */}
+              <div className="col-start-3 row-start-5">{renderEquipmentSlot('Boots')}</div>
             </div>
           </div>
         </div>
 
-        {/* PNT Balance */}
+        {/* PNT Balance Section */}
         <div className="bg-white rounded-lg shadow p-6 mb-8">
           <div className="flex justify-between items-center">
             <h2 className="text-xl font-bold">PNT Balance</h2>
