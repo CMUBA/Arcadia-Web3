@@ -5,14 +5,14 @@ import { HeroNFT, HeroContractData } from '../types/hero';
 import { Collection, COLLECTIONS } from '@/config/collections';
 import { useGetPNTBalance } from '@/hooks/useGetPNTBalance';
 import { useGetAccountTokens } from '@/hooks/useGetAccountTokens';
+import { useGetAptosNFTs } from '@/hooks/useGetAptosNFTs';
 
 // 定义装备槽位布局
 const EQUIPMENT_SLOTS = {
-  row1: ['Helmet'],
-  row2: ['Necklace'],
-  row3: ['Ring', 'Armor', 'Gloves'],
-  row4: ['Weapon', 'Shield'],
-  row5: ['Boots']
+  row1: ['Helmet', 'Necklace'],
+  row2: ['Ring', 'Armor', 'Gloves'],
+  row3: ['Weapon', 'Shield'],
+  row4: ['Boots']
 };
 
 export function Home() {
@@ -22,6 +22,7 @@ export function Home() {
   const [selectedCollection, setSelectedCollection] = useState<Collection>(COLLECTIONS[0]);
   const [heroNFTs, setHeroNFTs] = useState<HeroNFT[]>([]);
   const [heroData, setHeroData] = useState<HeroContractData | null>(null);
+  const { data: aptosNFTs } = useGetAptosNFTs(selectedCollection.id);
 
   // 保留原有的 collection select 处理函数
   const handleCollectionSelect = (collection: Collection) => {
@@ -38,8 +39,26 @@ export function Home() {
 
   // Get current NFT data for display
   const currentNFT = useMemo(() => {
-    return selectedNFTs[0]?.current_token_data;
-  }, [selectedNFTs]);
+    if (aptosNFTs && aptosNFTs.length > 0) {
+      const nft = aptosNFTs[0];
+      
+      // 如果 token_uri 是 IPFS URL，需要转换为 HTTP URL
+      const imageUrl = nft.token_uri.startsWith('ipfs://')
+        ? `https://ipfs.io/ipfs/${nft.token_uri.replace('ipfs://', '')}`
+        : nft.token_uri;
+
+      return {
+        token_name: nft.token_name,
+        description: nft.description,
+        token_uri: imageUrl,
+        token_properties: nft.token_properties,
+        // 可以添加其他需要的属性
+        amount: nft.amount,
+        collection_id: nft.collection_id,
+      };
+    }
+    return null;
+  }, [aptosNFTs]);
 
   const renderEquipmentSlot = (slot: string) => (
     <div 
@@ -98,23 +117,21 @@ export function Home() {
           <div className="bg-white rounded-lg shadow p-6">
             <h2 className="text-xl font-bold mb-4">Equipment</h2>
             <div className="grid grid-cols-5 gap-2 h-full">
-              {/* Row 1 - Helmet */}
-              <div className="col-start-3">{renderEquipmentSlot('Helmet')}</div>
+              {/* Row 1 - Helmet and Necklace */}
+              <div className="col-start-2">{renderEquipmentSlot('Helmet')}</div>
+              <div className="col-start-4">{renderEquipmentSlot('Necklace')}</div>
               
-              {/* Row 2 - Necklace */}
-              <div className="col-start-3 row-start-2">{renderEquipmentSlot('Necklace')}</div>
+              {/* Row 2 - Ring, Armor, Gloves */}
+              <div className="col-start-2 row-start-2">{renderEquipmentSlot('Ring')}</div>
+              <div className="col-start-3 row-start-2">{renderEquipmentSlot('Armor')}</div>
+              <div className="col-start-4 row-start-2">{renderEquipmentSlot('Gloves')}</div>
               
-              {/* Row 3 - Ring, Armor, Gloves */}
-              <div className="col-start-2 row-start-3">{renderEquipmentSlot('Ring')}</div>
-              <div className="col-start-3 row-start-3">{renderEquipmentSlot('Armor')}</div>
-              <div className="col-start-4 row-start-3">{renderEquipmentSlot('Gloves')}</div>
+              {/* Row 3 - Weapon, Shield */}
+              <div className="col-start-2 row-start-3">{renderEquipmentSlot('Weapon')}</div>
+              <div className="col-start-4 row-start-3">{renderEquipmentSlot('Shield')}</div>
               
-              {/* Row 4 - Weapon, Shield */}
-              <div className="col-start-2 row-start-4">{renderEquipmentSlot('Weapon')}</div>
-              <div className="col-start-4 row-start-4">{renderEquipmentSlot('Shield')}</div>
-              
-              {/* Row 5 - Boots */}
-              <div className="col-start-3 row-start-5">{renderEquipmentSlot('Boots')}</div>
+              {/* Row 4 - Boots */}
+              <div className="col-start-3 row-start-4">{renderEquipmentSlot('Boots')}</div>
             </div>
           </div>
         </div>

@@ -35,7 +35,9 @@ export function useGetAccountTokens() {
     enabled: !!account?.address,
     queryFn: async () => {
       try {
-        if (!account?.address) return null;
+        // if (!account?.address) return null;
+        // todo: enhance nodit method to get account tokens
+        if (account?.address) return null;
 
         const response = await fetch(NODIT_INDEXER_ENDPOINT, {
           method: 'POST',
