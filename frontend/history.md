@@ -103,6 +103,11 @@ done
 ## New Features V4
 1. in home page after login, if login user has equipments, show the equipments in the equipment area, replace the placeholder icon.
 
+need to do:
+1. hero contract deployed and register and load
+2. Mint NFT to get credential
+3. register: hero nft metadata deployed and register in hero contract 
+
 ## New Features V5
 1. hero data
     a. hero name = {name}, load from hero contract(set in initial player data)
