@@ -1,6 +1,6 @@
 // Internal components
 import { buttonVariants } from "@/components/ui/button";
-import { TriImageBanner } from "@/pages/Mint/components/TriImageBanner";
+import { TriImageBanner } from "@/pages/Market/components/TriImageBanner";
 // Internal config
 import { config } from "@/config";
 

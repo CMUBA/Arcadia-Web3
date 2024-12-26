@@ -16,7 +16,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
-import { Socials } from "@/pages/Mint/components/Socials";
+import { Socials } from "@/pages/Market/components/Socials";
 // Internal constants
 import { NETWORK } from "@/constants";
 // Internal config

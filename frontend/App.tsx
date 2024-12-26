@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Mint } from "@/pages/Mint";
+import { Market } from "@/pages/Market";
 import { MyCollections } from "@/pages/MyCollections";
 import { CreateCollection } from "@/pages/CreateCollection";
 import { Home } from "@/pages/Home";
@@ -9,7 +9,7 @@ export default function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/mint" element={<Mint />} />
+        <Route path="/market" element={<Market />} />
         <Route path="/my-collections" element={<MyCollections />} />
         <Route path="/create-collection" element={<CreateCollection />} />
       </Routes>

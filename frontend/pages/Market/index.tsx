@@ -4,23 +4,23 @@ import { useWallet } from "@aptos-labs/wallet-adapter-react";
 import { useEffect } from "react";
 import { toast } from 'react-hot-toast';
 
-import { BannerSection } from "@/pages/Mint/components/BannerSection";
-import { HeroSection } from "@/pages/Mint/components/HeroSection";
-import { StatsSection } from "@/pages/Mint/components/StatsSection";
-import { OurStorySection } from "@/pages/Mint/components/OurStorySection";
-import { HowToMintSection } from "@/pages/Mint/components/HowToMintSection";
-import { OurTeamSection } from "@/pages/Mint/components/OurTeamSection";
-import { FAQSection } from "@/pages/Mint/components/FAQSection";
-import { Socials } from "@/pages/Mint/components/Socials";
-import { ConnectWalletAlert } from "@/pages/Mint/components/ConnectWalletAlert";
+import { BannerSection } from "./components/BannerSection";
+import { HeroSection } from "./components/HeroSection";
+import { StatsSection } from "./components/StatsSection";
+import { OurStorySection } from "./components/OurStorySection";
+import { HowToMintSection } from "./components/HowToMintSection";
+import { OurTeamSection } from "./components/OurTeamSection";
+import { FAQSection } from "./components/FAQSection";
+import { Socials } from "./components/Socials";
+import { ConnectWalletAlert } from "./components/ConnectWalletAlert";
 
 import { useGetCollectionData } from "@/hooks/useGetCollectionData";
 
 import { Header } from "@/components/Header";
-import { NavBar } from "../../components/NavBar";
-import { Collection, COLLECTIONS } from '../../config/collections';
+import { NavBar } from "@/components/NavBar";
+import { Collection, COLLECTIONS } from '@/config/collections';
 
-export function Mint() {
+export function Market() {
   const queryClient = useQueryClient();
   const { account } = useWallet();
   const [selectedCollection, setSelectedCollection] = useState<Collection>(COLLECTIONS[0]);
@@ -111,4 +111,4 @@ export function Mint() {
       </div>
     </>
   );
-}
+} 
