@@ -1,0 +1,24 @@
+{
+  "name": "Hero #5",
+  "description": "Hero 5 in the Heroes collection",
+  "image": "/assets/images/default-hero.jpg",
+  "external_url": "https://arcadia.cmuba.org/5",
+  "attributes": [
+    {
+      "trait_type": "Hero Number",
+      "value": "5"
+    },
+    {
+      "trait_type": "race",
+      "value": "human"
+    },
+    {
+      "trait_type": "class",
+      "value": "warrior"
+    },
+    {
+      "trait_type": "gender",
+      "value": "male"
+    }
+  ]
+}
