@@ -1,6 +1,7 @@
 import { FC, FormEvent, useState } from "react";
 import { useWallet } from "@aptos-labs/wallet-adapter-react";
 import { useQueryClient } from "@tanstack/react-query";
+import { toast } from "react-hot-toast";
 // Internal assets
 import Copy from "@/assets/icon/copy.svg";
 import ExternalLink from "@/assets/icon/external-link.svg";
@@ -54,12 +55,22 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ collectionData }) => {
     if (!account || !collectionData?.isMintActive) return;
     if (!collection?.collection_id) return;
 
-    const response = await signAndSubmitTransaction(
-      mintNFT({ collectionId: collection.collection_id, amount: nftCount }),
-    );
-    await aptosClient().waitForTransaction({ transactionHash: response.hash });
-    queryClient.invalidateQueries();
-    setNftCount(1);
+    try {
+      const response = await signAndSubmitTransaction(
+        mintNFT({ 
+          collectionId: collection.collection_id, 
+          amount: nftCount 
+        })
+      );
+      
+      await aptosClient().waitForTransaction({ transactionHash: response.hash });
+      queryClient.invalidateQueries();
+      setNftCount(1);
+      toast.success('NFT minted successfully!');
+    } catch (error) {
+      console.error('Mint error:', error);
+      toast.error(error instanceof Error ? error.message : 'Failed to mint NFT');
+    }
   };
 
   return (

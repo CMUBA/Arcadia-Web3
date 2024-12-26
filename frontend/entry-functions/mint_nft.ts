@@ -5,12 +5,16 @@ export type MintNftArguments = {
   amount: number;
 };
 
+// 从环境变量获取 module address
+const MODULE_ADDRESS = import.meta.env.VITE_MODULE_ADDRESS;
+
 export const mintNFT = (args: MintNftArguments): InputTransactionData => {
   const { collectionId, amount } = args;
   
   return {
     data: {
-      function: `${collectionId}::launchpad::mint_nft`,
+      // 使用 MODULE_ADDRESS 而不是 collectionId
+      function: `${MODULE_ADDRESS}::launchpad::mint_nft`,
       typeArguments: [],
       functionArguments: [collectionId, amount],
     }
