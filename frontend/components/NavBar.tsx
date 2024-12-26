@@ -32,8 +32,8 @@ export function NavBar({ onCollectionSelect, currentCollectionId, showCollection
     <Disclosure as="nav" className="bg-black">
       {() => (
         <>
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div className="relative flex h-20 items-center justify-between">
+          <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+            <div className="relative flex h-14 items-center justify-between">
               {/* Left side - Navigation Links and Collection Selector */}
               <div className="flex flex-1 items-center justify-start">
                 <div className="flex items-center space-x-8">
