@@ -1,19 +1,9 @@
 import { useWallet } from "@aptos-labs/wallet-adapter-react";
 import { useEffect, useState, useMemo } from "react";
 import { NavBar } from "../components/NavBar";
-import { HeroNFT, HeroContractData } from '../types/hero';
 import { Collection, COLLECTIONS } from '@/config/collections';
 import { useGetPNTBalance } from '@/hooks/useGetPNTBalance';
-import { useGetAccountTokens } from '@/hooks/useGetAccountTokens';
 import { useGetAptosNFTs } from '@/hooks/useGetAptosNFTs';
-
-// 定义装备槽位布局
-const EQUIPMENT_SLOTS = {
-  row1: ['Helmet', 'Necklace'],
-  row2: ['Ring', 'Armor', 'Gloves'],
-  row3: ['Weapon', 'Shield'],
-  row4: ['Boots']
-};
 
 interface NFTMetadata {
   name: string;
@@ -27,12 +17,9 @@ interface NFTMetadata {
 }
 
 export function Home() {
-  const { account, connected } = useWallet();
+  const { account } = useWallet();
   const { data: pntData } = useGetPNTBalance();
-  const { data: tokenData } = useGetAccountTokens();
   const [selectedCollection, setSelectedCollection] = useState<Collection>(COLLECTIONS[0]);
-  const [heroNFTs, setHeroNFTs] = useState<HeroNFT[]>([]);
-  const [heroData, setHeroData] = useState<HeroContractData | null>(null);
   const { data: aptosNFTs } = useGetAptosNFTs(selectedCollection.id);
   const [nftMetadata, setNftMetadata] = useState<NFTMetadata | null>(null);
 
@@ -40,14 +27,6 @@ export function Home() {
   const handleCollectionSelect = (collection: Collection) => {
     setSelectedCollection(collection);
   };
-
-  // Filter NFTs by selected collection
-  const selectedNFTs = useMemo(() => {
-    if (!tokenData?.token_activities_v2) return [];
-    return tokenData.token_activities_v2.filter(
-      activity => activity.current_token_data.collection_id === selectedCollection.id
-    );
-  }, [tokenData, selectedCollection.id]);
 
   // Get current NFT data for display
   const currentNFT = useMemo(() => {
@@ -111,6 +90,28 @@ export function Home() {
     </div>
   );
 
+  const renderEquipmentGrid = () => {
+    const gridPositions = {
+      Helmet: { col: 2, row: 1 },
+      Necklace: { col: 4, row: 1 },
+      Ring: { col: 2, row: 2 },
+      Armor: { col: 3, row: 2 },
+      Gloves: { col: 4, row: 2 },
+      Weapon: { col: 2, row: 3 },
+      Shield: { col: 4, row: 3 },
+      Boots: { col: 3, row: 4 },
+    } as const;
+
+    return Object.entries(gridPositions).map(([slot, position]) => (
+      <div
+        key={slot}
+        className={`col-start-${position.col} row-start-${position.row}`}
+      >
+        {renderEquipmentSlot(slot)}
+      </div>
+    ));
+  };
+
   return (
     <>
       <NavBar 
@@ -169,21 +170,7 @@ export function Home() {
           <div className="bg-white rounded-lg shadow p-6">
             <h2 className="text-xl font-bold mb-4">Equipment</h2>
             <div className="grid grid-cols-5 gap-2 h-full">
-              {/* Row 1 - Helmet and Necklace */}
-              <div className="col-start-2">{renderEquipmentSlot('Helmet')}</div>
-              <div className="col-start-4">{renderEquipmentSlot('Necklace')}</div>
-              
-              {/* Row 2 - Ring, Armor, Gloves */}
-              <div className="col-start-2 row-start-2">{renderEquipmentSlot('Ring')}</div>
-              <div className="col-start-3 row-start-2">{renderEquipmentSlot('Armor')}</div>
-              <div className="col-start-4 row-start-2">{renderEquipmentSlot('Gloves')}</div>
-              
-              {/* Row 3 - Weapon, Shield */}
-              <div className="col-start-2 row-start-3">{renderEquipmentSlot('Weapon')}</div>
-              <div className="col-start-4 row-start-3">{renderEquipmentSlot('Shield')}</div>
-              
-              {/* Row 4 - Boots */}
-              <div className="col-start-3 row-start-4">{renderEquipmentSlot('Boots')}</div>
+              {renderEquipmentGrid()}
             </div>
           </div>
         </div>

@@ -2,7 +2,8 @@ import { useWallet } from "@aptos-labs/wallet-adapter-react";
 import { useQuery } from "@tanstack/react-query";
 import { Aptos, AptosConfig, Network } from "@aptos-labs/ts-sdk";
 
-interface NFTData {
+// 导出接口以便其他文件使用
+export interface NFTData {
   token_data_id: string;
   token_name: string;
   token_uri: string;

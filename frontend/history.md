@@ -172,6 +172,7 @@ need to do:
    第 2 个问题就是我，我这样设计对不对？就是英雄，那英雄首先它是一个唯一凭证，存储一些不变的东西
    但是因为 mutation 可以有更改属性 value，比如说 hero 图片，你英雄级别不同，图片不同
    对英雄的属性和技能我计划放在链上合约。这个合约里边嗯针对每一个唯一的 nft 有一个唯一的英雄属性记录。
+   IRYS 图片存储问题：https://gateway.irys.xyz/9nTN7XgXS3ZnizNTbvCtA7Y9HHhMFhszVePFkUMQG247/2.jpg，如何进行大量图片的上传和管理：https://docs.irys.xyz/learn/network-overview/irys-gateway
 
 
 ## TODO
