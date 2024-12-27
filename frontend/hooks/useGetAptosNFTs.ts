@@ -8,6 +8,8 @@ interface NFTData {
   token_uri: string;
   token_properties: Record<string, string>;
   description: string;
+  amount?: number;
+  collection_id?: string;
 }
 
 const config = new AptosConfig({ network: Network.MAINNET });
@@ -21,33 +23,33 @@ export function useGetAptosNFTs(collectionId: string) {
     enabled: !!account?.address && !!collectionId,
     queryFn: async () => {
       try {
-        const result = await aptos.getAccountOwnedTokensFromCollectionAddress({
-          accountAddress: account!.address,
-          collectionAddress: collectionId,
+        // 使用新的 API 获取所有数字资产
+        const digitalAssets = await aptos.getOwnedDigitalAssets({
+          ownerAddress: account!.address,
+          minimumLedgerVersion: 1
         });
 
-        console.log("NFTs from collection:", result);
+        console.log("Digital Assets:", digitalAssets);
 
-        if (!result || !result.length) {
+        // 过滤指定 collection 的资产
+        const collectionAssets = digitalAssets.filter(
+          asset => asset.current_token_data?.collection_id === collectionId
+        );
+
+        if (!collectionAssets.length) {
           return null;
         }
 
-        return result.map(token => {
-          const tokenData = token.current_token_data;
-          return {
-            token_data_id: token.token_data_id,
-            token_name: tokenData?.token_name || '',
-            // 从 token_uri 或 metadata_uri 获取图片 URL
-            token_uri: tokenData?.token_uri || tokenData?.metadata_uri || '',
-            // 从 token_properties 获取属性
-            token_properties: tokenData?.token_properties || {},
-            description: tokenData?.description || '',
-            // 可以添加其他需要的字段
-            amount: token.amount,
-            token_standard: token.token_standard,
-            collection_id: tokenData?.collection_id || '',
-          } as NFTData;
-        });
+        // 转换数据格式
+        return collectionAssets.map(asset => ({
+          token_data_id: asset.token_data_id,
+          token_name: asset.current_token_data?.token_name || '',
+          token_uri: asset.current_token_data?.token_uri || '',
+          token_properties: asset.current_token_data?.token_properties || {},
+          description: asset.current_token_data?.description || '',
+          amount: asset.amount,
+          collection_id: asset.current_token_data?.collection_id
+        }));
 
       } catch (error) {
         console.error('Error fetching Aptos NFTs:', error);

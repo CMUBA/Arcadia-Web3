@@ -15,6 +15,17 @@ const EQUIPMENT_SLOTS = {
   row4: ['Boots']
 };
 
+interface NFTMetadata {
+  name: string;
+  description: string;
+  image: string;
+  external_url: string;
+  attributes: {
+    trait_type: string;
+    value: string;
+  }[];
+}
+
 export function Home() {
   const { account, connected } = useWallet();
   const { data: pntData } = useGetPNTBalance();
@@ -23,6 +34,7 @@ export function Home() {
   const [heroNFTs, setHeroNFTs] = useState<HeroNFT[]>([]);
   const [heroData, setHeroData] = useState<HeroContractData | null>(null);
   const { data: aptosNFTs } = useGetAptosNFTs(selectedCollection.id);
+  const [nftMetadata, setNftMetadata] = useState<NFTMetadata | null>(null);
 
   // 保留原有的 collection select 处理函数
   const handleCollectionSelect = (collection: Collection) => {
@@ -42,23 +54,52 @@ export function Home() {
     if (aptosNFTs && aptosNFTs.length > 0) {
       const nft = aptosNFTs[0];
       
-      // 如果 token_uri 是 IPFS URL，需要转换为 HTTP URL
-      const imageUrl = nft.token_uri.startsWith('ipfs://')
-        ? `https://ipfs.io/ipfs/${nft.token_uri.replace('ipfs://', '')}`
-        : nft.token_uri;
+      // 获取 token_uri 中的 metadata
+      const fetchMetadata = async () => {
+        try {
+          if (!nft.token_uri) return null;
+          const response = await fetch(nft.token_uri);
+          const metadata = await response.json();
+          return metadata;
+        } catch (error) {
+          console.error('Error fetching metadata:', error);
+          return null;
+        }
+      };
+
+      // 处理图片 URL
+      const getImageUrl = (uri: string) => {
+        if (uri.startsWith('ipfs://')) {
+          return `https://ipfs.io/ipfs/${uri.replace('ipfs://', '')}`;
+        }
+        return uri;
+      };
 
       return {
         token_name: nft.token_name,
         description: nft.description,
-        token_uri: imageUrl,
+        token_uri: getImageUrl(nft.token_uri),
         token_properties: nft.token_properties,
-        // 可以添加其他需要的属性
         amount: nft.amount,
         collection_id: nft.collection_id,
+        // 添加 metadata 获取函数
+        getMetadata: fetchMetadata,
       };
     }
     return null;
   }, [aptosNFTs]);
+
+  // 加载 metadata
+  useEffect(() => {
+    if (currentNFT?.getMetadata) {
+      currentNFT.getMetadata().then(metadata => {
+        if (metadata) {
+          console.log('NFT Metadata:', metadata);
+          setNftMetadata(metadata as NFTMetadata);
+        }
+      });
+    }
+  }, [currentNFT]);
 
   const renderEquipmentSlot = (slot: string) => (
     <div 
@@ -83,16 +124,25 @@ export function Home() {
           {/* Hero Stats Section */}
           <div className="bg-white rounded-lg shadow p-6">
             <h2 className="text-xl font-bold mb-4">Hero Stats</h2>
-            {currentNFT && (
+            {nftMetadata && (
               <div className="space-y-4">
-                <h3 className="font-bold text-lg">{currentNFT.token_name}</h3>
-                <p className="text-gray-600">{currentNFT.description}</p>
-                {Object.entries(currentNFT.token_properties).map(([key, value]) => (
-                  <div key={key} className="flex justify-between">
-                    <span className="font-semibold">{key}:</span>
-                    <span>{value}</span>
-                  </div>
-                ))}
+                <h3 className="font-bold text-lg">{nftMetadata.name}</h3>
+                <p className="text-gray-600">{nftMetadata.description}</p>
+                <div className="grid grid-cols-2 gap-4">
+                  {nftMetadata.attributes.map((attr) => (
+                    <div 
+                      key={attr.trait_type}
+                      className="bg-gray-50 p-3 rounded-lg"
+                    >
+                      <div className="text-sm text-gray-500 capitalize">
+                        {attr.trait_type}
+                      </div>
+                      <div className="font-semibold capitalize">
+                        {attr.value}
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
             )}
           </div>
@@ -100,12 +150,14 @@ export function Home() {
           {/* Character Preview Section */}
           <div className="bg-white rounded-lg shadow p-6">
             <h2 className="text-xl font-bold mb-4">Character Preview</h2>
-            {currentNFT?.token_uri ? (
-              <img 
-                src={currentNFT.token_uri} 
-                alt={currentNFT.token_name}
-                className="w-full h-auto rounded-lg"
-              />
+            {nftMetadata?.image ? (
+              <div className="aspect-square relative overflow-hidden rounded-lg">
+                <img 
+                  src={nftMetadata.image}
+                  alt={nftMetadata.name}
+                  className="w-full h-full object-cover"
+                />
+              </div>
             ) : (
               <div className="aspect-square bg-gray-100 rounded-lg flex items-center justify-center">
                 <span className="text-gray-400">No preview available</span>
