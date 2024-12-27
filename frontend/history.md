@@ -103,6 +103,11 @@ done
 ## New Features V4
 1. in home page after login, if login user has equipments, show the equipments in the equipment area, replace the placeholder icon.
 
+need to do:
+1. hero contract deployed and register and load
+2. Mint NFT to get credential
+3. register: hero nft metadata deployed and register in hero contract 
+
 ## New Features V5
 1. hero data
     a. hero name = {name}, load from hero contract(set in initial player data)
@@ -152,7 +157,7 @@ done
   5. hero PNTs mint: https://github.com/aptos-labs/aptos-core/tree/main/aptos-move/move-examples/fungible_asset/fa_coin,use aptos example code, and modify it to fit our game.
   6. how to get: 
     a. PNTs balance: https://developer.nodit.io/reference/getnativebalancebyaccount
-    b. hero nft data: https://developer.nodit.io/reference/get-nfts-by-account
+    b. hero nft data: https://developer.nodit.io/reference/get-nfts-by-account, 
     c. hero contract data: https://developer.nodit.io/reference/get-account-resource
 
   7. how to interact with hero contract:
