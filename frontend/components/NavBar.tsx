@@ -18,7 +18,8 @@ interface NavigationItem {
 // Define navigation array with proper typing
 const navigation: NavigationItem[] = [
   { name: 'Home', href: '/', current: false },
-  { name: 'Market', href: '/market', current: true },
+  { name: 'Market', href: '/market', current: false },
+  { name: 'Demo', href: '/demo', current: false },
 ];
 
 interface NavBarProps {
