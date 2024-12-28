@@ -3,10 +3,7 @@ name = "Hero"
 version = "0.0.1"
 
 [addresses]
-hero = "0x1234"
-minter = "0x5678"
-initial_creator_addr = "0x9abc"
-launchpad_addr = "0xdef0"
+hero = "0x3f2bb5c649e701c17e9a092e913c8884219ab8e6ed67c814c026f743f68cd2a3"
 
 [dev-addresses]
 hero = "0x12345678"

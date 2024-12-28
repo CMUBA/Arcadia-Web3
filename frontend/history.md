@@ -175,5 +175,32 @@ need to do:
    IRYS 图片存储问题：https://gateway.irys.xyz/9nTN7XgXS3ZnizNTbvCtA7Y9HHhMFhszVePFkUMQG247/2.jpg，如何进行大量图片的上传和管理：https://docs.irys.xyz/learn/network-overview/irys-gateway
 
 
-## TODO
-1. hard code to config COLLECTION_ADDRESS in collection.ts, but it should in a registry contract on chain.
+## Hero contract
+```
+./publish.sh     
+Compiling, may take a little while to download git dependencies...
+UPDATING GIT DEPENDENCY https://github.com/aptos-labs/aptos-core.git
+UPDATING GIT DEPENDENCY https://github.com/aptos-labs/aptos-core.git
+INCLUDING DEPENDENCY AptosFramework
+INCLUDING DEPENDENCY AptosStdlib
+INCLUDING DEPENDENCY AptosTokenObjects
+INCLUDING DEPENDENCY MoveStdlib
+BUILDING Hero
+package size 6402 bytes
+Do you want to submit a transaction for a range of [452000 - 678000] Octas at a gas unit price of 100 Octas? [yes/no] >
+yes
+Transaction submitted: https://explorer.aptoslabs.com/txn/0x7e25352ff87f59875ce732f816379cc45226cdef3357c42f82ec01803916a32b?network=mainnet
+{
+  "Result": {
+    "transaction_hash": "0x7e25352ff87f59875ce732f816379cc45226cdef3357c42f82ec01803916a32b",
+    "gas_used": 4520,
+    "gas_unit_price": 100,
+    "sender": "3f2bb5c649e701c17e9a092e913c8884219ab8e6ed67c814c026f743f68cd2a3",
+    "sequence_number": 3,
+    "success": true,
+    "timestamp_us": 1735365804984019,
+    "version": 2113352648,
+    "vm_status": "Executed successfully"
+  }
+}
+```
