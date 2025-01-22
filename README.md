@@ -60,3 +60,5 @@ Some commands are built-in the template and can be ran as a npm script, for exam
 - `npm run deploy` - a command to deploy the dapp to Vercel
 
 For all other available CLI commands, can run `npx aptos` and see a list of all available commands.
+
+Points address: 0xee3ff47098abfc3640a626732dac235dfdd807b563d806ee8c20460f22d1df85
