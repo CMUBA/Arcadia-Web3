@@ -17,8 +17,8 @@ interface NavigationItem {
 
 // Define navigation array with proper typing
 const navigation: NavigationItem[] = [
-  { name: 'Index', href: '/index.html', current: false },
   { name: 'Home', href: '/', current: false },
+  { name: 'Hero', href: '/hero', current: false },
   { name: 'Market', href: '/market', current: true },
 ];
 
@@ -39,34 +39,19 @@ export function NavBar({ onCollectionSelect, currentCollectionId, showCollection
               <div className="flex flex-1 items-center justify-start">
                 <div className="flex items-center space-x-8">
                   {navigation.map((item) => (
-                    item.href === '/index.html' ? (
-                      <a
-                        key={item.name}
-                        href={item.href}
-                        className={classNames(
-                          item.current
-                            ? 'bg-gray-900 text-white'
-                            : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                          'rounded-md px-4 py-3 text-lg font-medium'
-                        )}
-                      >
-                        {item.name}
-                      </a>
-                    ) : (
-                      <Link
-                        key={item.name}
-                        to={item.href}
-                        className={classNames(
-                          item.current
-                            ? 'bg-gray-900 text-white'
-                            : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                          'rounded-md px-4 py-3 text-lg font-medium'
-                        )}
-                        aria-current={item.current ? 'page' : undefined}
-                      >
-                        {item.name}
-                      </Link>
-                    )
+                    <Link
+                      key={item.name}
+                      to={item.href}
+                      className={classNames(
+                        item.current
+                          ? 'bg-gray-900 text-white'
+                          : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                        'rounded-md px-4 py-3 text-lg font-medium'
+                      )}
+                      aria-current={item.current ? 'page' : undefined}
+                    >
+                      {item.name}
+                    </Link>
                   ))}
                   {/* Collection Selector */}
                   {showCollectionSelector && onCollectionSelect && (
