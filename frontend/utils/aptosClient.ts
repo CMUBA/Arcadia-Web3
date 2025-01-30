@@ -1,9 +1,13 @@
-import { APTOS_API_KEY, NETWORK } from "@/constants";
-import { Aptos, AptosConfig } from "@aptos-labs/ts-sdk";
+import { Aptos, AptosConfig, Network } from "@aptos-labs/ts-sdk";
 
-const aptos = new Aptos(new AptosConfig({ network: NETWORK, clientConfig: { API_KEY: APTOS_API_KEY } }));
+const config = new AptosConfig({ 
+  network: Network.MAINNET,
+  apiKey: import.meta.env.VITE_APTOS_API_KEY
+});
 
-// Reuse same Aptos instance to utilize cookie based sticky routing
+const aptos = new Aptos(config);
+
+// 导出为函数形式，保持与现有代码兼容
 export function aptosClient() {
   return aptos;
 }

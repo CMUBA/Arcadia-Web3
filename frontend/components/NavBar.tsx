@@ -18,6 +18,7 @@ interface NavigationItem {
 // Define navigation array with proper typing
 const navigation: NavigationItem[] = [
   { name: 'Home', href: '/', current: false },
+  { name: 'Hero', href: '/hero', current: false },
   { name: 'Market', href: '/market', current: true },
 ];
 
@@ -52,7 +53,7 @@ export function NavBar({ onCollectionSelect, currentCollectionId, showCollection
                       {item.name}
                     </Link>
                   ))}
-                  {/* Collection Selector moved here */}
+                  {/* Collection Selector */}
                   {showCollectionSelector && onCollectionSelect && (
                     <CollectionSelector
                       onCollectionSelect={onCollectionSelect}
