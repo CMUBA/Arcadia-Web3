@@ -1,115 +1,277 @@
 # Arcadia
 
-includes three parts:
+## System Architecture
 
-1. NFT related functions: publish collection, mint nft, transfer nft, etc.
-2. Hero create on chain contract
-3. Interaction with on chain contract
+```mermaid
+graph TD
+    subgraph Client Layer
+        A[Game Client]
+        W[Website]
+    end
 
-## Data structure
+    subgraph Service Layer
+        subgraph Auth Service Cluster
+            C1[Auth Service Primary]
+            C2[Auth Service Backup]
+        end
 
-### NFT
+        subgraph Game Service
+            D1[Game Basic Service]
+            D2[Game Compute Service]
+        end
 
-the example NFT metadata json is:
+        subgraph City Service Cluster
+            M1[City Server 1]
+            M2[City Server 2]
+            subgraph Map Services
+                MP1[Map Service 1]
+                MP2[Map Service 2]
+            end
+        end
 
-   ```json {
-  "description": "NFT {id} in Arcadia collection",
-  "image": "",
-  "name": "NFT {id}",
-  "external_url": "https://arcadia.cmuba.org/{id}",
-  "attributes": [
-    {
-      "type": "race",
-      "value": "human"
-    },
-    {
-      "trait_type": "gender",
-      "value": "male"
-    }
-    {
-      "type": "class",
-      "value": "warrior"
-    }
-  ]
- }
+        E[Chain Service]
+    end
+
+    subgraph Chain Layer
+        F[Chain Adapter]
+        G[Different Blockchains]
+    end
+
+    %% Client Layer connections
+    A --> C1
+    A --> D2
+    W --> C1
+    W --> D1
+
+    %% Auth Service connections
+    C1 -.->|Failover| C2
+    C2 -.->|Monitor| C1
+
+    %% Game Service connections
+    D1 --> E
+    D2 --> D1
+    D2 --> M1
+    D2 --> M2
+
+    %% City Service connections
+    M1 --> MP1
+    M1 --> MP2
+    M2 --> MP1
+    M2 --> MP2
+
+    %% Chain Layer connections
+    E --> F
+    F --> G
+
+    %% Service Discovery and Recovery
+    C1 -.->|Health Check| D1
+    C1 -.->|Health Check| D2
+    D1 -.->|Health Check| M1
+    D1 -.->|Health Check| M2
+
+    classDef primary fill:#f96,stroke:#333,stroke-width:2px
+    classDef backup fill:#69f,stroke:#333,stroke-width:2px
+    classDef compute fill:#9f6,stroke:#333,stroke-width:2px
+    
+    class C1 primary
+    class C2 backup
+    class D2 compute
 ```
 
-NFT manage by this tool: https://github.com/CMUBA/Arcadia-NFT-manager
-![](https://raw.githubusercontent.com/jhfnetboy/MarkDownImg/main/img/202501301102403.png)
+## Service Components
 
-NFT pictures generate by this tool: https://creator.nightcafe.studio/?ru=CJPh5P4BvTRw85h2sZSRcEuF7ll1
+### Website Module
+- NFT Creation and Minting
+- NFT Marketplace
+- User Authentication
+- Wallet Connection
 
+### Game Basic Service
+- Hero Data Management
+- Basic Game Logic
+- Chain Interaction
+- Data Persistence
 
+### Game Compute Service
+- Game Logic Processing
+- Data Validation
+- Combat Calculations
+- State Management
 
-### Hero
+### City Service
+- City State Management
+- Player Interaction
+- Resource Management
+- Map Service Integration
 
-```json{  
-        "name" = "hero name"  // can be modified by user
-        "level" = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, and more}, no limit // upgrade by user with PNTs amount
-        "class" = {warrior, mage, archer, priest}, only warrior supported now //duplicated with NFT
-        "race" = {human, elf, dwarf, orc}, now only human supported now //duplicated with NFT   
-        "skill" = {2,3,5,8} // basic skills, can be modified by different upgrade routes, Spring=agile, Summer=attack, Autumn=life, Winter=defense , we have a skill grid to calculate different effects on different skills levels
-        }
+### Map Service
+- Terrain Management
+- Position Tracking
+- Movement Validation
+- Area Effects
+
+### Auth Service
+- JWT Token Management
+- Node Authentication
+- User Authentication
+- Service Discovery
+- Health Monitoring
+- Failover Management
+
+### Chain Service
+- Multi-chain Support
+- Contract Interaction
+- Transaction Processing
+- Data Synchronization
+
+## Service Discovery and Recovery
+
+### Health Check Protocol
+1. Each service registers with Auth Service
+2. Regular heartbeat signals
+3. Service state monitoring
+4. Automatic failover triggers
+
+### Service Recovery Process
+1. Detection: Auth Service detects node failure
+2. Election: Backup nodes participate in election
+3. Promotion: Selected node becomes primary
+4. State Recovery: Load state from blockchain
+5. Service Resumption: New node takes over
+
+### Permissionless Node Participation
+1. Node Registration
+   - Generate keypair
+   - Register on chain
+   - Obtain node address
+   - Join service network
+
+2. Role Assignment
+   - Capability declaration
+   - State synchronization
+   - Service integration
+
+3. Monitoring and Validation
+   - Performance monitoring
+   - State validation
+   - Reputation tracking
+
+4. Graceful Exit
+   - State handover
+   - Network notification
+   - Chain record update
+
+## API 设计
+
+### 1. 节点 API
+
+#### 1.1 节点注册
+```
+POST /api/v1/node/register
+Headers:
+  - x-node-address
+  - x-node-sign
+Body:
+  - publicKey: string
+  - ip: string
+  - port: number
 ```
 
-rely on a fixed table to show different effects on different skills levels with upgrade requirements points.
+#### 1.2 节点认证
+```
+POST /api/v1/node/auth
+Headers:
+  - x-node-address
+  - x-node-sign
+Body:
+  - timestamp: number
+```
 
-Now we hard code in the server side, and will be moved to the on chain contract later.
-https://www.notion.so/cmuba/V0-1-Game-design-YT-1836900e50b680deb938f63ea7a9932f
+### 2. 用户 API
 
-https://whimsical.com/attribute-7Wjz8qDJJzjQbcffNdpUSm
+#### 2.1 用户认证
+```
+POST /api/v1/user/auth
+Headers:
+  - x-chain-id
+  - x-wallet-address
+  - x-user-sign
+Body:
+  - challenge: string
+```
 
-we set a limitation for all players, they can play only 3 times in a day. 
+#### 2.2 创建英雄
+```
+POST /api/v1/hero/create
+Headers:
+  - x-chain-id
+  - x-wallet-address
+  - x-user-sign
+  - Authorization: Bearer <token>
+Body:
+  - nftId: string
+  - name: string
+  - class: string
+  - race: string
+```
 
-<!-- and then get more chance energy charging by PNTs. -->
+#### 2.3 加载英雄数据
+```
+GET /api/v1/hero/load
+Headers:
+  - x-chain-id
+  - x-wallet-address
+  - Authorization: Bearer <token>
+```
 
-and then they can play without any PNTs rewards only for fun.
+#### 2.4 保存英雄数据
+```
+POST /api/v1/hero/save
+Headers:
+  - x-chain-id
+  - x-wallet-address
+  - x-user-sign
+  - Authorization: Bearer <token>
+Body:
+  - heroData: HeroData
+```
 
-### Interaction
+### 3. 错误处理
 
-We define APIs on APIFox: jhfnetboy has invited you to join a project ArcadiaWeb3 on Apifox https://app.apifox.com/invite/project?token=26bTrfLYhA8bWqOou4TN2
+#### 3.1 错误码设计
+- 1000-1999: 系统错误
+- 2000-2999: 认证错误
+- 3000-3999: 业务错误
+- 4000-4999: 链交互错误
 
+#### 3.2 错误响应格式
+```typescript
+interface ErrorResponse {
+    code: number;
+    message: string;
+    details?: any;
+}
+```
 
-#### Create
+## 开发规范
 
-You must have a NFT to create a hero.
-You can create a hero seamlessly when you bought a NFT.
-Buy your NFT with a wallet connect(crypto wallet).
-Select a hero race, gender, class, and set your name then create.
+### 1. 代码规范
+- 使用 TypeScript
+- 遵循 ESLint 规则
+- 使用 Prettier 格式化
+- 编写单元测试
 
-#### Load
+### 2. 文档规范
+- API 文档使用 OpenAPI 3.0
+- 代码注释遵循 JSDoc
+- 更新 CHANGELOG
+- 维护 README
 
-If you login with a wallet connection or Email or other social accounts, you can load your hero from the server side with a load from on-chain contract background service.
-
-#### Save
-
-You can save your hero to the server side with a save to on-chain contract background service.
-
-#### Redeem
-
-You can redeem a NFT/coupon from a on-chain shop swap contract by PNTs.
-Also, everyone can issue their own NFT/coupon to the shop contract to sell.
-
-1. I am a business man, issue 10 coupons(10 NFTs) to the shop contract to sell. I need to pay the protocol fee about 300 PNTs.
-2. I am a player, I need to redeem 2 coupons(NFTs) from the shop contract with 100 PNTs.
-3. So the protocol gets 20 PNTs from the every coupon redeem transaction.
-4. PNTs can be get from the game play, and also can be get from the shop by token swap.
-
-
-## How to run the project
-
-Access from https://arcadia.cmuba.org/
-
-1. `npm install`
-2. add .env file in root
-   ```
-    PROJECT_NAME=nft-mint(change with your own address)
-    VITE_APP_NETWORK=mainnet
-    VITE_COLLECTION_CREATOR_ADDRESS=0x7664630eca412a243674da5b9ac58ad5a7fc2d54557d6563905a9c80f25faf66
-    VITE_APTOS_API_KEY=""
-    VITE_MODULE_PUBLISHER_ACCOUNT_ADDRESS=0x7664630eca412a243674da5b9ac58ad5a7fc2d54557d6563905a9c80f25faf66
-    #This is the module publisher account's private key. Be cautious about who you share it with, and ensure it is not exposed when deploying your dApp.
-    VITE_MODULE_PUBLISHER_ACCOUNT_PRIVATE_KEY=
+### 3. 部署规范
+- 使用 Docker 容器化
+- CI/CD自动化部署
+- 环境配置分离
+- 日志规范化 _MODULE_PUBLISHER_ACCOUNT_PRIVATE_KEY=
 
     #To fill after you create a collection, will be used for the minting page
     VITE_COLLECTION_ADDRESS="0xbce80457b6911b37c73a67f0996f5c000f4f9a9ad6b5bf240d45a5f613e73592"
