@@ -13,7 +13,7 @@ Requirments for players:
 2. Add a navigation bar on the top of the page, the bar has two links: Market(to the original page), Town(new page) with a login button(original is a button to connect wallet).
 
 3. the town page, if they login with Pectra Wallet, we can get their wallet address and show their heros(NFTs) on the page. Follow the formate below:
-   1. the test NFT metadata json is:
+   1. the example NFT metadata json is:
    ```json {
   "description": "nft 2 in Arcadia collection",
   "image": "",
@@ -121,12 +121,13 @@ need to do:
 
   2. hero data save in three places:
     a. hero contract onchain, save hero data: ```json { skills, equipments, package }```
-    b. hero nft metadata enum, ```json  
+    b. hero nft metadata enum, 
+            ```json  
                           hero level = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, more than 10}, no limit
                           hero class = {warrior, mage, archer, priest}, now only warrior supported
                           hero race = {human, elf, dwarf, orc}, now only human supported
                           hero Talent = {Spring, Summer, Autumn, Winter} 
-                          ```
+            ```
 
     c. hero PNTs balance, show in the frontend, load from user's account address
 
